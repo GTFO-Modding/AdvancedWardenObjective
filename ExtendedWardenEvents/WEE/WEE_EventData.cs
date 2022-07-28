@@ -38,7 +38,16 @@ namespace ExtendedWardenEvents.WEE
 
     internal sealed class WEE_ReactorEventData
     {
-        public int TargetWave { get; set; }
+        public WaveState State { get; set; } = WaveState.Intro;
+        public int Wave { get; set; } = 1;
+        public float Progress { get; set; } = 0.0f;
+
+        public enum WaveState
+        {
+            Intro,
+            Wave,
+            Verify
+        }
     }
 
     internal sealed class WEE_DoorInteractionData

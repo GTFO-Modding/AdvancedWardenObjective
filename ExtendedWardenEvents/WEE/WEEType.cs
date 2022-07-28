@@ -10,7 +10,7 @@
         TriggerSecurityDoorAlarm, //Done
         SolveSecurityDoorAlarm, //TODO: Partially works
         StartReactor, //Done
-        JumpToReactorWave,
+        ModifyReactorWaveState, //Done
         ForceCompleteReactor,
         ForceCompleteLevel,
         ForceFailLevel,
