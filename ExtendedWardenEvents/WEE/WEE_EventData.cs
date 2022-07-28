@@ -8,15 +8,15 @@ namespace ExtendedWardenEvents.WEE
     internal sealed class WEE_EventData
     {
         public WEEType Type { get; set; }
-        public eWardenObjectiveEventTrigger Trigger { get; set; }
-        public eDimensionIndex DimensionIndex { get; set; }
-        public LG_LayerType Layer { get; set; }
-        public eLocalZoneIndex LocalIndex { get; set; }
-        public float Delay { get; set; }
+        public eWardenObjectiveEventTrigger Trigger { get; set; } = eWardenObjectiveEventTrigger.None;
+        public eDimensionIndex DimensionIndex { get; set; } = eDimensionIndex.Reality;
+        public LG_LayerType Layer { get; set; } = LG_LayerType.MainLayer;
+        public eLocalZoneIndex LocalIndex { get; set; } = eLocalZoneIndex.Zone_0;
+        public float Delay { get; set; } = 0.0f;
         public LocalizedText WardenIntel { get; set; } = new();
-        public uint SoundID { get; set; }
+        public uint SoundID { get; set; } = 0u;
         public LocalizedText SoundSubtitle { get; set; } = new();
-        public uint DialogueID { get; set; }
+        public uint DialogueID { get; set; } = 0u;
 
         //Common Updater
         public WEE_SubObjectiveData SubObjective { get; set; } = new();

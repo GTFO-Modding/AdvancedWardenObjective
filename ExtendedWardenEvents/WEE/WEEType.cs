@@ -11,18 +11,18 @@
         SolveSecurityDoorAlarm, //TODO: Partially works
         StartReactor, //Done
         ModifyReactorWaveState, //Done
-        ForceCompleteReactor,
-        ForceCompleteLevel,
-        ForceFailLevel,
+        ForceCompleteReactor, //Done
+        ForceCompleteLevel, //Done
+        ForceFailLevel, //Done
         Countdown, //Done
         KillPlayersWithForceComplete,
         KillPlayersWithForceFail,
-        SolveSingleObjectiveItem,
+        SolveSingleObjectiveItem, //Done
         SetLightDataInZone,
         AlertEnemiesInZone,
         DespawnEnemiesInZone,
         KillEnemiesInZone,
-        SaveCheckpoint,
+        SaveCheckpoint, //Done
         MoveExtractionWorldPosition
     }
 }
