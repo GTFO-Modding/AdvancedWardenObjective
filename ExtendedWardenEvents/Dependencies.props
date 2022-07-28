@@ -1,0 +1,57 @@
+﻿<Project InitialTargets="ValidateGamePath">
+	<Import Project="$(MSBuildThisFileDirectory)\GameFolder.props" Condition="Exists('$(MSBuildThisFileDirectory)\GameFolder.props')" />
+  
+	<Target Name="ValidateGamePath">
+		<Error Text="The GameFolder property must be set to the GTFO game folder." Condition="'$(GameFolder)' == '' or !Exists('$(GameFolder)')" />
+	</Target>
+
+	<!-- Path Info -->
+	<PropertyGroup>
+		<BIELibsFolder>$(GameFolder)\BepInEx\core</BIELibsFolder>
+		<CorLibsFolder>$(GameFolder)\dotnet</CorLibsFolder>
+		<InteropLibsFolder>$(GameFolder)\BepInEx\interop</InteropLibsFolder>
+		<PluginsFolder>$(GameFolder)\BepInEx\plugins</PluginsFolder>
+	</PropertyGroup>
+
+	<!-- BepInEx libs -->
+	<ItemGroup>
+		<Reference Include="$(BIELibsFolder)\BepInEx.*.dll" Private="false" />
+		<Reference Include="$(BIELibsFolder)\0Harmony.dll" Private="false" />
+		<Reference Include="$(BIELibsFolder)\MonoMod.RuntimeDetour.dll" Private="false" />
+		<Reference Include="$(BIELibsFolder)\Il2CppInterop.*.dll" Private="false" />
+	</ItemGroup>
+
+	<!-- CorLibs -->
+	<ItemGroup>
+		<Reference Include="$(CorLibsFolder)\*.dll" Private="false" />
+		<!-- Filter Native DLL -->
+		<Reference Remove="$(CorLibsFolder)\coreclr.dll" />
+		<Reference Remove="$(CorLibsFolder)\mscorrc.dll" />
+		<Reference Remove="$(CorLibsFolder)\dbgshim.dll" />
+		<Reference Remove="$(CorLibsFolder)\msquic.dll" />
+		<Reference Remove="$(CorLibsFolder)\hostpolicy.dll" />
+		<Reference Remove="$(CorLibsFolder)\*Native*.dll" />
+		<Reference Remove="$(CorLibsFolder)\clr*.dll" />
+		<Reference Remove="$(CorLibsFolder)\mscord*.dll" />
+	</ItemGroup>
+
+	<!-- Interop -->
+	<ItemGroup>
+		<Reference Include="$(InteropLibsFolder)\*.dll" Private="false" />
+		<Reference Remove="$(InteropLibsFolder)\netstandard.dll" />
+	</ItemGroup>
+
+	<!-- Plugin Dependencies -->
+	<ItemGroup>
+		<Reference Include="$(PluginsFolder)\GTFO-API.dll" Private="false" />
+	</ItemGroup>
+
+	<!-- NuGet Packages -->
+	<ItemGroup>
+		<PackageReference Include="VersionInfoGenerator" Version="2.1.3" />
+		<PackageReference Include="Microsoft.Unity.Analyzers" Version="1.14.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+</Project>
