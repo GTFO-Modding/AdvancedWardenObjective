@@ -1,6 +1,7 @@
 ﻿using GameData;
 using LevelGeneration;
 using Localization;
+using UnityEngine;
 
 namespace ExtendedWardenEvents.WEE
 {
@@ -23,6 +24,7 @@ namespace ExtendedWardenEvents.WEE
 
         //Command Specific
         public WEE_ReactorEventData Reactor { get; set; } = new();
+        public WEE_CountdownData Countdown { get; set; } = new();
     }
 
     internal sealed class WEE_UpdateFogData
@@ -63,5 +65,6 @@ namespace ExtendedWardenEvents.WEE
     {
         public float Duration { get; set; }
         public LocalizedText TimerText { get; set; } = new();
+        public Color TimerColor { get; set; } = Color.red;
     }
 }
