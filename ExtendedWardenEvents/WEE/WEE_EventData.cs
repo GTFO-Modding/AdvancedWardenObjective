@@ -17,21 +17,24 @@ namespace ExtendedWardenEvents.WEE
         public LocalizedText SoundSubtitle { get; set; } = new();
         public uint DialogueID { get; set; }
 
+        //Common Updater
         public WEE_SubObjectiveData SubObjective { get; set; } = new();
-        public WEE_UpdateFogData UpdateFog { get; set; } = new();
+        public WEE_UpdateFogData Fog { get; set; } = new();
+
+        //Command Specific
         public WEE_ReactorEventData Reactor { get; set; } = new();
     }
 
     internal sealed class WEE_UpdateFogData
     {
-        public bool Update { get; set; } = false;
+        public bool DoUpdate { get; set; } = false;
         public float FogTransitionDuration { get; set; }
         public uint FogSetting { get; set; }
     }
 
     internal sealed class WEE_SubObjectiveData
     {
-        public bool Update { get; set; } = false;
+        public bool DoUpdate { get; set; } = false;
         public LocalizedText CustomSubObjectiveHeader { get; set; }
         public LocalizedText CustomSubObjective { get; set; }
     }

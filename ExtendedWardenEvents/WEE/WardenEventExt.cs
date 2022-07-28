@@ -78,6 +78,16 @@ namespace ExtendedWardenEvents.WEE
                 }
             }
 
+            if (e.SubObjective.DoUpdate)
+            {
+                WardenObjectiveManager.UpdateSyncCustomSubObjective(e.SubObjective.CustomSubObjectiveHeader, e.SubObjective.CustomSubObjective);
+            }
+
+            if (e.Fog.DoUpdate)
+            {
+                EnvironmentStateManager.AttemptStartFogTransition(e.Fog.FogSetting, e.Fog.FogTransitionDuration, e.DimensionIndex);
+            }
+
             if (_EventsToTrigger.TryGetValue(type, out var eventInstance))
             {
                 eventInstance.Trigger(e);
