@@ -11,7 +11,7 @@ namespace ExtendedWardenEvents.Networking.Test
     internal struct LightState
     {
         public float intensity;
-        public bool isOn;
+        public int isOn;
     }
 
     internal class LightStateHolder : MonoBehaviour, IStateReplicatorHolder<LightState>
@@ -30,10 +30,8 @@ namespace ExtendedWardenEvents.Networking.Test
                 Replicator.SetState(new LightState()
                 {
                     intensity = Time.time,
-                    isOn = !Replicator.State.isOn
+                    isOn = Replicator.State.isOn+1
                 });
-
-                Logger.Error("Sent!");
             }
         }
 
@@ -46,7 +44,7 @@ namespace ExtendedWardenEvents.Networking.Test
 
         public void OnStateChange(LightState oldState, LightState state, bool isRecall)
         {
-            Logger.Error($"{state.intensity} {state.isOn}");
+            Logger.Error($"{state.isOn} {state.intensity}");
         }
     }
 }

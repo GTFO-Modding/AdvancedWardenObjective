@@ -89,6 +89,7 @@ namespace ExtendedWardenEvents.Networking
                 LifeTime = lifeTime,
                 Holder = holder
             };
+            _Replicators[replicatorID] = replicator;
             return replicator;
         }
 

@@ -122,11 +122,14 @@ namespace ExtendedWardenEvents.Networking
 
         public void Invoke(uint replicatorID, S data)
         {
+            
+
             var payload = new P()
             {
                 ID = replicatorID
             };
             payload.Set(data);
+
             NetworkAPI.InvokeEvent(Name, payload);
         }
 
@@ -137,6 +140,7 @@ namespace ExtendedWardenEvents.Networking
                 ID = replicatorID
             };
             payload.Set(data);
+
             NetworkAPI.InvokeEvent(Name, payload, channelType);
         }
 
@@ -147,6 +151,7 @@ namespace ExtendedWardenEvents.Networking
                 ID = replicatorID
             };
             payload.Set(data);
+
             NetworkAPI.InvokeEvent(Name, payload, target);
         }
 
@@ -157,6 +162,7 @@ namespace ExtendedWardenEvents.Networking
                 ID = replicatorID
             };
             payload.Set(data);
+
             NetworkAPI.InvokeEvent(Name, payload, target, channelType);
         }
     }
