@@ -50,8 +50,13 @@ namespace ExtendedWardenEvents.Networking
 
         public void Unload()
         {
-            _Replicators.Remove(ID);
-            ID = 0u;
+            if (IsValid)
+            {
+                _Replicators.Remove(ID);
+                _RecallStateSnapshots.Clear();
+                _Handshake.UpdateDestroyed(ID);
+                ID = 0u;
+            }
         }
 
         private void DoSync(S newState)
@@ -61,12 +66,12 @@ namespace ExtendedWardenEvents.Networking
 
             if (CanSendToClient)
             {
-                HostSetStateEvent.Invoke(ID, newState);
+                _H_SetStateEvent.Invoke(ID, newState);
                 Internal_ChangeState(newState, false);
             }
             else if (CanSendToHost)
             {
-                ClientRequestEvent.Invoke(ID, newState, SNet.Master);
+                _C_RequestEvent.Invoke(ID, newState, SNet.Master);
             }
         }
 
@@ -93,7 +98,7 @@ namespace ExtendedWardenEvents.Networking
                 return;
             }
 
-            HostSetRecallStateEvent.Invoke(ID, State, target);
+            _H_SetRecallStateEvent.Invoke(ID, State, target);
         }
 
         private void SaveSnapshot(eBufferType type)
@@ -113,7 +118,7 @@ namespace ExtendedWardenEvents.Networking
             {
                 if (_RecallStateSnapshots.TryGetValue(type, out var savedState))
                 {
-                    HostSetRecallStateEvent.Invoke(ID, savedState);
+                    _H_SetRecallStateEvent.Invoke(ID, savedState);
                     Internal_ChangeState(savedState, isRecall: true);
                 }
                 else

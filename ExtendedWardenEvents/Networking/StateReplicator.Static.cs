@@ -21,9 +21,10 @@ namespace ExtendedWardenEvents.Networking
         public static readonly int StateSize;
         public static readonly StatePayloads.Size StateSizeType;
 
-        private static readonly IReplicatorEvent<S> ClientRequestEvent;
-        private static readonly IReplicatorEvent<S> HostSetStateEvent;
-        private static readonly IReplicatorEvent<S> HostSetRecallStateEvent;
+        private static readonly IReplicatorEvent<S> _C_RequestEvent;
+        private static readonly IReplicatorEvent<S> _H_SetStateEvent;
+        private static readonly IReplicatorEvent<S> _H_SetRecallStateEvent;
+        private static readonly ReplicatorHandshake _Handshake;
 
         private static readonly Dictionary<uint, StateReplicator<S>> _Replicators = new();
 
@@ -41,15 +42,26 @@ namespace ExtendedWardenEvents.Networking
             HostSetStateEventName = $"SRr{Name}-{HashName}";
             HostSetRecallStateEventName = $"SRre{Name}-{HashName}";
 
-            ClientRequestEvent = StatePayloads.CreateEvent<S>(StateSizeType, ClientRequestEventName, ClientRequestEventCallback);
-            HostSetStateEvent =  StatePayloads.CreateEvent<S>(StateSizeType, HostSetStateEventName, HostSetStateEventCallback);
-            HostSetRecallStateEvent = StatePayloads.CreateEvent<S>(StateSizeType, HostSetRecallStateEventName, HostSetRecallStateEventCallback);
+            _C_RequestEvent = StatePayloads.CreateEvent<S>(StateSizeType, ClientRequestEventName, ClientRequestEventCallback);
+            _H_SetStateEvent =  StatePayloads.CreateEvent<S>(StateSizeType, HostSetStateEventName, HostSetStateEventCallback);
+            _H_SetRecallStateEvent = StatePayloads.CreateEvent<S>(StateSizeType, HostSetRecallStateEventName, HostSetRecallStateEventCallback);
+            _Handshake = ReplicatorHandshake.Create($"{Name}-{HashName}");
+            _Handshake.OnClientSyncRequested += ClientSyncRequested;
 
-            Inject_SNet_Capture.OnBufferCapture += Inject_SNet_Capture_OnBufferCapture;
-            Inject_SNet_Capture.OnBufferRecalled += Inject_SNet_Capture_OnBufferRecalled;
+            Inject_SNet_Capture.OnBufferCapture += BufferStored;
+            Inject_SNet_Capture.OnBufferRecalled += BufferRecalled;
         }
 
-        private static void Inject_SNet_Capture_OnBufferCapture(eBufferType type)
+        private static void ClientSyncRequested(SNet_Player requestedPlayer)
+        {
+            foreach (var replicator in _Replicators.Values)
+            {
+                if (replicator.IsValid)
+                    replicator.SendDropInState(requestedPlayer);
+            }
+        }
+
+        private static void BufferStored(eBufferType type)
         {
             foreach (var replicator in _Replicators.Values)
             {
@@ -58,12 +70,14 @@ namespace ExtendedWardenEvents.Networking
             }
         }
 
-        private static void Inject_SNet_Capture_OnBufferRecalled(eBufferType type)
+        private static void BufferRecalled(eBufferType type)
         {
             foreach (var replicator in _Replicators.Values)
             {
                 if (replicator.IsValid)
+                {
                     replicator.RestoreSnapshot(type);
+                }   
             }
         }
 
@@ -89,6 +103,22 @@ namespace ExtendedWardenEvents.Networking
                 LifeTime = lifeTime,
                 Holder = holder
             };
+
+            if (lifeTime == LifeTimeType.Permanent)
+            {
+                Logger.Debug($"LifeTime is {nameof(LifeTimeType.Permanent)} :: Handshaking is disabled!");
+            }
+            else if (lifeTime == LifeTimeType.Session)
+            {
+                _Handshake.UpdateCreated(replicatorID);
+            }
+            else
+            {
+                Logger.Error($"LifeTime is invalid!: {lifeTime}");
+                return null;
+            }
+            
+
             _Replicators[replicatorID] = replicator;
             return replicator;
         }
@@ -99,13 +129,18 @@ namespace ExtendedWardenEvents.Networking
             foreach (var replicator in _Replicators.Values)
             {
                 if (replicator.LifeTime == LifeTimeType.Session)
+                {
                     idsToRemove.Add(replicator.ID);
+                    replicator.Unload();
+                }
             }
 
             foreach (var id in idsToRemove)
             {
                 _Replicators.Remove(id);
             }
+
+            _Handshake.Reset();
         }
 
         private static void ClientRequestEventCallback(ulong sender, uint replicatorID, S newState)
