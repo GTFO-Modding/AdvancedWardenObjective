@@ -20,7 +20,6 @@
         SolveSingleObjectiveItem, //Done
         SetLightDataInZone,
         AlertEnemiesInZone,
-        DespawnEnemiesInZone,
         KillEnemiesInZone,
         SaveCheckpoint, //Done
         MoveExtractionWorldPosition
