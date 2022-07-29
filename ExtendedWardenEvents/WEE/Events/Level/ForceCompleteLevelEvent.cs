@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.WEE.Events
+namespace ExtendedWardenEvents.WEE.Events.Level
 {
     internal sealed class ForceCompleteLevelEvent : BaseEvent
     {

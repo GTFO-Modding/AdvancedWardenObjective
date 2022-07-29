@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.WEE.Events
+namespace ExtendedWardenEvents.WEE.Events.Objective
 {
     internal sealed class ForceCompleteReactorEvent : BaseEvent
     {

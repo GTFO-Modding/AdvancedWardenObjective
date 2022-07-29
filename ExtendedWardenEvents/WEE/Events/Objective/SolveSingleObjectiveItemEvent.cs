@@ -1,4 +1,4 @@
-﻿namespace ExtendedWardenEvents.WEE.Events
+﻿namespace ExtendedWardenEvents.WEE.Events.Objective
 {
     internal sealed class SolveSingleObjectiveItemEvent : BaseEvent
     {

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.WEE.Events
+namespace ExtendedWardenEvents.WEE.Events.World
 {
     internal sealed class MoveExtractionWorldPositionEvent : BaseEvent
     {

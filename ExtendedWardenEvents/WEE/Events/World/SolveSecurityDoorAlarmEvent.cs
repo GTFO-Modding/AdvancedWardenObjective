@@ -5,7 +5,7 @@ using GameData;
 using System.Collections;
 using UnityEngine;
 
-namespace ExtendedWardenEvents.WEE.Events
+namespace ExtendedWardenEvents.WEE.Events.World
 {
     internal class SolveSecurityDoorAlarmEvent : BaseEvent
     {

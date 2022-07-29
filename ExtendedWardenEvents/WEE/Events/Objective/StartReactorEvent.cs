@@ -1,7 +1,7 @@
 ﻿using GameData;
 using LevelGeneration;
 
-namespace ExtendedWardenEvents.WEE.Events
+namespace ExtendedWardenEvents.WEE.Events.Objective
 {
     internal sealed class StartReactorEvent : BaseEvent
     {

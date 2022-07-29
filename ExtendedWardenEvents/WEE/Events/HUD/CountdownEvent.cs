@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ExtendedWardenEvents.WEE.Events
+namespace ExtendedWardenEvents.WEE.Events.HUD
 {
     internal sealed class CountdownEvent : BaseEvent
     {
@@ -27,7 +27,7 @@ namespace ExtendedWardenEvents.WEE.Events
             GuiManager.PlayerLayer.m_objectiveTimer.SetTimerTextEnabled(true);
 
             var time = 0.0f;
-            while(time <= duration)
+            while (time <= duration)
             {
                 if (GameStateManager.CurrentStateName != eGameStateName.InLevel)
                 {
