@@ -17,6 +17,7 @@ namespace ExtendedWardenEvents.WEE.Events
         public void Setup()
         {
             Name = GetType().Name;
+            OnSetup();
         }
 
         public void Trigger(WEE_EventData e)
@@ -34,6 +35,7 @@ namespace ExtendedWardenEvents.WEE.Events
             else TriggerClient(e);
         }
 
+        protected virtual void OnSetup() { }
         protected virtual void TriggerCommon(WEE_EventData e) { }
         protected virtual void TriggerClient(WEE_EventData e) { }
         protected virtual void TriggerMaster(WEE_EventData e) { }

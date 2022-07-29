@@ -4,6 +4,7 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net6.0-windows</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<OutputPath>bin\$(Configuration)\</OutputPath>
 		<Platforms>x64</Platforms>

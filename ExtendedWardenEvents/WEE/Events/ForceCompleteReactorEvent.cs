@@ -13,7 +13,7 @@ namespace ExtendedWardenEvents.WEE.Events
 
         protected override void TriggerMaster(WEE_EventData e)
         {
-            foreach (var keyvalue in WardenObjectiveManager.Current.m_wardenObjectiveItem)
+            foreach (var keyvalue in WOManager.Current.m_wardenObjectiveItem)
             {
                 if (keyvalue.Key.Layer != e.Layer)
                     continue;

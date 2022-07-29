@@ -12,6 +12,7 @@ namespace ExtendedWardenEvents.WEE
         public eDimensionIndex DimensionIndex { get; set; } = eDimensionIndex.Reality;
         public LG_LayerType Layer { get; set; } = LG_LayerType.MainLayer;
         public eLocalZoneIndex LocalIndex { get; set; } = eLocalZoneIndex.Zone_0;
+        public Vector3 Position { get; set; } = Vector3.zero;
         public float Delay { get; set; } = 0.0f;
         public LocalizedText WardenIntel { get; set; } = new();
         public uint SoundID { get; set; } = 0u;

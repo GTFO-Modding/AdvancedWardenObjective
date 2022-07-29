@@ -83,7 +83,7 @@ namespace ExtendedWardenEvents.Networking
 
         private StateReplicator() {}
 
-        public static StateReplicator<S> Create(uint replicatorID, LifeTimeType lifeTime, IStateReplicatorHolder<S> holder = null)
+        public static StateReplicator<S> Create(uint replicatorID, S startState, LifeTimeType lifeTime, IStateReplicatorHolder<S> holder = null)
         {
             if (replicatorID == 0u)
             {
@@ -101,7 +101,8 @@ namespace ExtendedWardenEvents.Networking
             {
                 ID = replicatorID,
                 LifeTime = lifeTime,
-                Holder = holder
+                Holder = holder,
+                State = startState
             };
 
             if (lifeTime == LifeTimeType.Permanent)
@@ -123,6 +124,7 @@ namespace ExtendedWardenEvents.Networking
             return replicator;
         }
 
+        //Just need to call this!
         public static void UnloadSessionReplicator()
         {
             List<uint> idsToRemove = new();

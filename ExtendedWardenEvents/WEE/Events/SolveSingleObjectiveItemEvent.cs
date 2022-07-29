@@ -6,14 +6,14 @@
 
         protected override void TriggerMaster(WEE_EventData e)
         {
-            if (!WardenObjectiveManager.HasWardenObjectiveDataForLayer(e.Layer))
+            if (!WOManager.HasWardenObjectiveDataForLayer(e.Layer))
             {
                 LogError($"{e.Layer} Objective is Missing");
                 return;
             }
 
-            var chainIndex = WardenObjectiveManager.GetCurrentChainIndex(e.Layer);
-            var items = WardenObjectiveManager.GetObjectiveItemCollection(e.Layer, chainIndex);
+            var chainIndex = WOManager.GetCurrentChainIndex(e.Layer);
+            var items = WOManager.GetObjectiveItemCollection(e.Layer, chainIndex);
             if (items == null)
             {
                 LogError($"{e.Layer} Objective Doesn't have ObjectiveItem Collection!");
@@ -25,7 +25,7 @@
                 if (item.ObjectiveItemSolved)
                     continue;
 
-                WardenObjectiveManager.OnLocalPlayerSolvedObjectiveItem(e.Layer, item, forceSolve: false);
+                WOManager.OnLocalPlayerSolvedObjectiveItem(e.Layer, item, forceSolve: false);
                 break;
             }
         }

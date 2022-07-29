@@ -16,11 +16,11 @@ namespace ExtendedWardenEvents.WEE.Detours
 
         public unsafe static void Patch()
         {
-            var nested = typeof(WardenObjectiveManager).GetNestedTypes();
+            var nested = typeof(WOManager).GetNestedTypes();
             Type executeEventType = null;
             foreach (var nestType in nested)
             {
-                var match = nestType?.Name?.Contains(nameof(WardenObjectiveManager.ExcecuteEvent), StringComparison.InvariantCulture) ?? false;
+                var match = nestType?.Name?.Contains(nameof(WOManager.ExcecuteEvent), StringComparison.InvariantCulture) ?? false;
                 if (match)
                 {
                     executeEventType = nestType;

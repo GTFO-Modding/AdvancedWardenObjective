@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace ExtendedWardenEvents.WEE.Events
 {
-    internal sealed class ModifyReactorWaveState : BaseEvent
+    internal sealed class ModifyReactorWaveStateEvent : BaseEvent
     {
         public override WEEType EventType => WEEType.ModifyReactorWaveState;
 
         protected override void TriggerMaster(WEE_EventData e)
         {
-            foreach (var keyvalue in WardenObjectiveManager.Current.m_wardenObjectiveItem)
+            foreach (var keyvalue in WOManager.Current.m_wardenObjectiveItem)
             {
                 if (keyvalue.Key.Layer != e.Layer)
                     continue;

@@ -1,9 +1,10 @@
-﻿using BepInEx.IL2CPP.Utils.Collections;
-using ExtendedWardenEvents.Jsons.Il2CppJson;
+﻿using ExtendedWardenEvents.Jsons.Il2CppJson;
 using ExtendedWardenEvents.WEE.Converter;
 using ExtendedWardenEvents.WEE.Detours;
 using ExtendedWardenEvents.WEE.Events;
+using ExtendedWardenEvents.WEE.Replicators;
 using GameData;
+using Il2CppInterop.Runtime.Injection;
 using Player;
 using System;
 using System.Collections;
@@ -32,12 +33,15 @@ namespace ExtendedWardenEvents.WEE
                     Logger.Error($"With '{existing.Name}' and '{instance.Name}'");
                     continue;
                 }
+                instance.Setup();
                 _EventsToTrigger[instance.EventType] = instance;
             }
         }
 
         internal static void Initialize()
         {
+            ClassInjector.RegisterTypeInIl2Cpp<ScanPositionReplicator>();
+
             Il2CppJsonConverters.RegisterConverter(new EventDataConverter());
             WEEEnumInjector.Inject();
             Detour_ExecuteEvent.Patch();
@@ -63,14 +67,14 @@ namespace ExtendedWardenEvents.WEE
                 yield return new WaitForSeconds(delay);
             }
 
-            WardenObjectiveManager.DisplayWardenIntel(e.Layer, e.WardenIntel);
+            WOManager.DisplayWardenIntel(e.Layer, e.WardenIntel);
             if (e.DialogueID > 0u)
             {
                 PlayerDialogManager.WantToStartDialog(e.DialogueID, -1, false, false);
             }
             if (e.SoundID > 0u)
             {
-                WardenObjectiveManager.Current.m_sound.Post(e.SoundID, true);
+                WOManager.Current.m_sound.Post(e.SoundID, true);
                 var line = e.SoundSubtitle.ToString();
                 if (!string.IsNullOrWhiteSpace(line))
                 {
@@ -80,7 +84,7 @@ namespace ExtendedWardenEvents.WEE
 
             if (e.SubObjective.DoUpdate)
             {
-                WardenObjectiveManager.UpdateSyncCustomSubObjective(e.SubObjective.CustomSubObjectiveHeader, e.SubObjective.CustomSubObjective);
+                WOManager.UpdateSyncCustomSubObjective(e.SubObjective.CustomSubObjectiveHeader, e.SubObjective.CustomSubObjective);
             }
 
             if (e.Fog.DoUpdate)

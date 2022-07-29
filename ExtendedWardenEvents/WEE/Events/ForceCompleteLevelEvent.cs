@@ -14,7 +14,7 @@ namespace ExtendedWardenEvents.WEE.Events
 
         protected override void TriggerMaster(WEE_EventData e)
         {
-            WardenObjectiveManager.ForceCompleteObjective(LG_LayerType.MainLayer);
+            WOManager.ForceCompleteObjective(LG_LayerType.MainLayer);
             SNet.Sync.SessionCommand(eSessionCommandType.TryEndPlaying, 2);
         }
     }
