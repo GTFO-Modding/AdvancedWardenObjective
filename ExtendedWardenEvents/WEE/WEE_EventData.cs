@@ -1,11 +1,16 @@
-﻿using GameData;
+﻿using Agents;
+using AIGraph;
+using GameData;
 using LevelGeneration;
 using Localization;
+using SNetwork;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace ExtendedWardenEvents.WEE
 {
-    internal sealed class WEE_EventData
+    public sealed class WEE_EventData
     {
         public WEEType Type { get; set; }
         public eWardenObjectiveEventTrigger Trigger { get; set; } = eWardenObjectiveEventTrigger.None;
@@ -26,23 +31,24 @@ namespace ExtendedWardenEvents.WEE
         //Command Specific
         public WEE_ReactorEventData Reactor { get; set; } = new();
         public WEE_CountdownData Countdown { get; set; } = new();
+        public WEE_CleanupEnemiesData CleanupEnemies { get; set; } = new();
     }
 
-    internal sealed class WEE_UpdateFogData
+    public sealed class WEE_UpdateFogData
     {
         public bool DoUpdate { get; set; } = false;
         public float FogTransitionDuration { get; set; }
         public uint FogSetting { get; set; }
     }
 
-    internal sealed class WEE_SubObjectiveData
+    public sealed class WEE_SubObjectiveData
     {
         public bool DoUpdate { get; set; } = false;
         public LocalizedText CustomSubObjectiveHeader { get; set; }
         public LocalizedText CustomSubObjective { get; set; }
     }
 
-    internal sealed class WEE_ReactorEventData
+    public sealed class WEE_ReactorEventData
     {
         public WaveState State { get; set; } = WaveState.Intro;
         public int Wave { get; set; } = 1;
@@ -56,16 +62,80 @@ namespace ExtendedWardenEvents.WEE
         }
     }
 
-    internal sealed class WEE_DoorInteractionData
+    public sealed class WEE_DoorInteractionData
     {
         public bool Lockdown { get; set; }
         public string LockdownMessage { get; set; }
     }
 
-    internal sealed class WEE_CountdownData
+    public sealed class WEE_CountdownData
     {
         public float Duration { get; set; }
         public LocalizedText TimerText { get; set; } = new();
         public Color TimerColor { get; set; } = Color.red;
+    }
+
+    public sealed class WEE_CleanupEnemiesData
+    {
+        public CleanUpType Type { get; set; } = CleanUpType.Despawn;
+        public bool IncludeHibernate { get; set; } = true;
+        public bool IncludeAggressive { get; set; } = true;
+        public bool IncludeScout { get; set; } = true;
+        public uint[] ExcludeEnemyID { get; set; } = Array.Empty<uint>();
+
+        public void DoClear(AIG_CourseNode node)
+        {
+            if (SNet.IsMaster)
+                return;
+
+            if (node == null)
+                return;
+
+            if (node.m_enemiesInNode == null)
+                return;
+
+            foreach (var enemy in node.m_enemiesInNode)
+            {
+                bool clear = enemy.AI.Mode switch
+                {
+                    AgentMode.Agressive => IncludeAggressive,
+                    AgentMode.Scout => IncludeScout,
+                    AgentMode.Hibernate => IncludeHibernate,
+                    _ => true
+                };
+
+                if (clear)
+                {
+                    if (ExcludeEnemyID.Contains(enemy.EnemyDataID))
+                    {
+                        continue;
+                    }
+
+                    switch (Type)
+                    {
+                        case CleanUpType.Despawn:
+                            enemy.m_replicator.Despawn();
+                            break;
+
+                        case CleanUpType.Kill:
+                            enemy.Damage.IsImortal = false;
+                            enemy.Damage.BulletDamage(enemy.Damage.DamageMax, null, default, default, default);
+                            break;
+                    }
+                }
+            }
+        }
+
+        public enum CleanUpType
+        {
+            Kill,
+            Despawn
+        }
+    }
+
+    public enum FilterMode
+    {
+        Exclude,
+        Include,
     }
 }

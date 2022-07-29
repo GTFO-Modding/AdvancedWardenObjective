@@ -1,6 +1,6 @@
 ﻿namespace ExtendedWardenEvents.WEE
 {
-    internal enum WEEType
+    public enum WEEType
     {
         CloseSecurityDoor //Done
             = WEEEnumInjector.ExtendedIndex + 0,
@@ -20,8 +20,8 @@
         SolveSingleObjectiveItem, //Done
         SetLightDataInZone,
         AlertEnemiesInZone,
-        KillEnemiesInZone,
+        CleanupEnemiesInZone, //Done, Kill, Despawn Has Merged with this
         SaveCheckpoint, //Done
-        MoveExtractionWorldPosition
+        MoveExtractionWorldPosition //Done
     }
 }
