@@ -5,6 +5,7 @@ global using WOManager = WardenObjectiveManager;
 using BepInEx;
 using BepInEx.IL2CPP;
 using ExtendedWardenEvents.Jsons.Il2CppJson;
+using ExtendedWardenEvents.Networking.CommonReplicator;
 using ExtendedWardenEvents.WEE;
 using GTFO.API;
 using HarmonyLib;
@@ -23,6 +24,13 @@ namespace ExtendedWardenEvents
             Il2CppJsonConverters.Initialize();
 
             new Harmony("EventsExt.Harmony").PatchAll();
+
+            AssetAPI.OnStartupAssetsLoaded += AssetAPI_OnStartupAssetsLoaded;
+        }
+
+        private void AssetAPI_OnStartupAssetsLoaded()
+        {
+            LevelFailCheckStatusReplicator.AssetLoaded();
         }
     }
 }
