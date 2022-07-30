@@ -68,7 +68,7 @@ namespace ExtendedWardenEvents.WEE
                 yield return new WaitForSeconds(delay);
             }
 
-            WOManager.DisplayWardenIntel(e.Layer, e.WardenIntel);
+            WOManager.DisplayWardenIntel(e.Layer, e.WardenIntel.ToLocalizedText());
             if (e.DialogueID > 0u)
             {
                 PlayerDialogManager.WantToStartDialog(e.DialogueID, -1, false, false);
@@ -85,7 +85,7 @@ namespace ExtendedWardenEvents.WEE
 
             if (e.SubObjective.DoUpdate)
             {
-                WOManager.UpdateSyncCustomSubObjective(e.SubObjective.CustomSubObjectiveHeader, e.SubObjective.CustomSubObjective);
+                WOManager.UpdateSyncCustomSubObjective(e.SubObjective.CustomSubObjectiveHeader.ToLocalizedText(), e.SubObjective.CustomSubObjective.ToLocalizedText());
             }
 
             if (e.Fog.DoUpdate)

@@ -1,8 +1,8 @@
 ﻿using Agents;
 using AIGraph;
+using ExtendedWardenEvents.Jsons;
 using GameData;
 using LevelGeneration;
-using Localization;
 using SNetwork;
 using System;
 using System.Linq;
@@ -19,10 +19,11 @@ namespace ExtendedWardenEvents.WEE
         public eLocalZoneIndex LocalIndex { get; set; } = eLocalZoneIndex.Zone_0;
         public Vector3 Position { get; set; } = Vector3.zero;
         public float Delay { get; set; } = 0.0f;
-        public LocalizedText WardenIntel { get; set; } = new();
+        public LocaleText WardenIntel { get; set; } = LocaleText.Empty;
         public uint SoundID { get; set; } = 0u;
-        public LocalizedText SoundSubtitle { get; set; } = new();
+        public LocaleText SoundSubtitle { get; set; } = LocaleText.Empty;
         public uint DialogueID { get; set; } = 0u;
+        public bool Enabled { get; set; } = true;
 
         //Common Updater
         public WEE_SubObjectiveData SubObjective { get; set; } = new();
@@ -45,8 +46,8 @@ namespace ExtendedWardenEvents.WEE
     public sealed class WEE_SubObjectiveData
     {
         public bool DoUpdate { get; set; } = false;
-        public LocalizedText CustomSubObjectiveHeader { get; set; }
-        public LocalizedText CustomSubObjective { get; set; }
+        public LocaleText CustomSubObjectiveHeader { get; set; } = LocaleText.Empty;
+        public LocaleText CustomSubObjective { get; set; } = LocaleText.Empty;
     }
 
     public sealed class WEE_ReactorEventData
@@ -72,7 +73,7 @@ namespace ExtendedWardenEvents.WEE
     public sealed class WEE_CountdownData
     {
         public float Duration { get; set; }
-        public LocalizedText TimerText { get; set; } = new();
+        public LocaleText TimerText { get; set; } = LocaleText.Empty;
         public Color TimerColor { get; set; } = Color.red;
     }
 
