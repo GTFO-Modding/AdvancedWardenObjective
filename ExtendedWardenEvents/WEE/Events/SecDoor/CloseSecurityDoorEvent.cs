@@ -2,7 +2,7 @@
 using GameData;
 using LevelGeneration;
 
-namespace ExtendedWardenEvents.WEE.Events.World
+namespace ExtendedWardenEvents.WEE.Events.SecDoor
 {
     internal sealed class CloseSecurityDoorEvent : BaseEvent
     {

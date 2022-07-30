@@ -16,7 +16,7 @@
         ForceFailLevel, //Done
         Countdown, //Done
         SetLevelFailCheckEnabled, //Done
-        KillAllPlayers,
+        KillAllPlayers, //Done
         SolveSingleObjectiveItem, //Done
         SetLightDataInZone, //TODO: Partially Done, Need to Work on Animation
         AlertEnemiesInZone, //Done

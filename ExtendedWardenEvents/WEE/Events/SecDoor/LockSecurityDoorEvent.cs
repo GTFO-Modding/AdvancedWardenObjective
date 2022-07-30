@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.WEE.Events.World
+namespace ExtendedWardenEvents.WEE.Events.SecDoor
 {
     internal sealed class LockSecurityDoorEvent : BaseEvent
     {

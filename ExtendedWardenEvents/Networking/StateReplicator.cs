@@ -101,6 +101,14 @@ namespace ExtendedWardenEvents.Networking
             _H_SetRecallStateEvent.Invoke(ID, State, target);
         }
 
+        public void ClearAllRecallSnapshot()
+        {
+            if (IsInvalid)
+                return;
+
+            _RecallStateSnapshots.Clear();
+        }
+
         private void SaveSnapshot(eBufferType type)
         {
             if (IsInvalid)

@@ -14,15 +14,16 @@ namespace ExtendedWardenEvents.WEE.Events
         public bool failAllowed;
     }
 
-    internal sealed class SetLevelFailCheckEnabled : BaseEvent
+    internal sealed class SetLevelFailCheckEnabledEvent : BaseEvent
     {
         public override WEEType EventType => WEEType.SetLevelFailCheckEnabled;
-        private StateReplicator<LevelFailCheck> _Replicator = StateReplicator<LevelFailCheck>.Create(1u, new() { failAllowed = true }, LifeTimeType.Permanent);
+        private readonly StateReplicator<LevelFailCheck> _Replicator = StateReplicator<LevelFailCheck>.Create(1u, new() { failAllowed = true }, LifeTimeType.Permanent);
 
         protected override void OnSetup()
         {
             LG_Factory.add_OnFactoryBuildStart(new Action(() =>
             {
+                _Replicator.ClearAllRecallSnapshot();
                 _Replicator.SetState(new()
                 {
                     failAllowed = true
