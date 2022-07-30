@@ -65,7 +65,7 @@ namespace ExtendedWardenEvents.WEE
 
     public sealed class WEE_DoorInteractionData
     {
-        public bool Lockdown { get; set; }
+        public bool LockdownState { get; set; }
         public string LockdownMessage { get; set; }
     }
 

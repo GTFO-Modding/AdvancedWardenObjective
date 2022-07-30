@@ -28,7 +28,4 @@
 		<Obfuscate>True</Obfuscate>
 		<DefineConstants>RELEASE</DefineConstants>
 	</PropertyGroup>
-	<ItemGroup>
-	  <Folder Include="Extensions\" />
-	</ItemGroup>
 </Project>

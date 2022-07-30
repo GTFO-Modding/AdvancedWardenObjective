@@ -5,7 +5,7 @@
         CloseSecurityDoor //Done
             = WEEEnumInjector.ExtendedIndex + 0,
 
-        LockSecurityDoor,
+        LockSecurityDoor, //Done
         SetDoorInteraction,
         TriggerSecurityDoorAlarm, //Done
         SolveSecurityDoorAlarm, //TODO: Partially works
