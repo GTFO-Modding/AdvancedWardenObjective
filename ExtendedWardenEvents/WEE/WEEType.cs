@@ -18,7 +18,7 @@
         KillPlayersWithForceComplete,
         KillPlayersWithForceFail,
         SolveSingleObjectiveItem, //Done
-        SetLightDataInZone,
+        SetLightDataInZone, //TODO: Partially Done, Need to Work on Animation
         AlertEnemiesInZone, //Done
         CleanupEnemiesInZone, //Done, Kill, Despawn Has Merged with this
         SaveCheckpoint, //Done

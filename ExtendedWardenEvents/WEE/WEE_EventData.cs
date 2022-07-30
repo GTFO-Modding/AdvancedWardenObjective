@@ -32,6 +32,7 @@ namespace ExtendedWardenEvents.WEE
         public WEE_ReactorEventData Reactor { get; set; } = new();
         public WEE_CountdownData Countdown { get; set; } = new();
         public WEE_CleanupEnemiesData CleanupEnemies { get; set; } = new();
+        public WEE_ZoneLightData SetZoneLight { get; set; } = new();
     }
 
     public sealed class WEE_UpdateFogData
@@ -130,6 +131,19 @@ namespace ExtendedWardenEvents.WEE
         {
             Kill,
             Despawn
+        }
+    }
+
+    public sealed class WEE_ZoneLightData
+    {
+        public ModifierType Type { get; set; } = ModifierType.RevertToOriginal;
+        public uint LightDataID { get; set; }
+        public int Seed { get; set; } = 0; //Random on Zero
+
+        public enum ModifierType : byte
+        {
+            RevertToOriginal,
+            SetZoneLightData
         }
     }
 

@@ -41,6 +41,7 @@ namespace ExtendedWardenEvents.WEE
         internal static void Initialize()
         {
             ClassInjector.RegisterTypeInIl2Cpp<ScanPositionReplicator>();
+            ClassInjector.RegisterTypeInIl2Cpp<ZoneLightReplicator>();
 
             Il2CppJsonConverters.RegisterConverter(new EventDataConverter());
             WEEEnumInjector.Inject();
