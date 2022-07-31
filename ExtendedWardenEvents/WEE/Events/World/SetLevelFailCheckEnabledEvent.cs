@@ -1,6 +1,6 @@
 ﻿using ExtendedWardenEvents.Networking;
-using ExtendedWardenEvents.Networking.CommonReplicator;
 using ExtendedWardenEvents.Networking.CommonReplicator.Inject;
+using ExtendedWardenEvents.Sessions;
 using LevelGeneration;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace ExtendedWardenEvents.WEE.Events
 
         protected override void TriggerMaster(WEE_EventData e)
         {
-            LevelFailCheckStatusReplicator.SetFailAllowed(e.Enabled);
+            LevelFailUpdateState.SetFailAllowed(e.Enabled);
         }
     }
 }

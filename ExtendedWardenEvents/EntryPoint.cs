@@ -5,7 +5,7 @@ global using WOManager = WardenObjectiveManager;
 using BepInEx;
 using BepInEx.IL2CPP;
 using ExtendedWardenEvents.Jsons.Il2CppJson;
-using ExtendedWardenEvents.Networking.CommonReplicator;
+using ExtendedWardenEvents.Sessions;
 using ExtendedWardenEvents.WEE;
 using GTFO.API;
 using HarmonyLib;
@@ -30,7 +30,8 @@ namespace ExtendedWardenEvents
 
         private void AssetAPI_OnStartupAssetsLoaded()
         {
-            LevelFailCheckStatusReplicator.AssetLoaded();
+            BlackoutState.AssetLoaded();
+            LevelFailUpdateState.AssetLoaded();
         }
     }
 }

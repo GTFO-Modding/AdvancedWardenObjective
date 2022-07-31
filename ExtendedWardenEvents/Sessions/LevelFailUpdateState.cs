@@ -1,4 +1,5 @@
-﻿using ExtendedWardenEvents.Networking.CommonReplicator.Inject;
+﻿using ExtendedWardenEvents.Networking;
+using ExtendedWardenEvents.Networking.CommonReplicator.Inject;
 using LevelGeneration;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Networking.CommonReplicator
+namespace ExtendedWardenEvents.Sessions
 {
     internal struct LevelFailCheck
     {
         public bool failAllowed;
     }
 
-    internal sealed class LevelFailCheckStatusReplicator
+    internal sealed class LevelFailUpdateState
     {
         private static StateReplicator<LevelFailCheck> _Replicator;
 
@@ -32,6 +33,11 @@ namespace ExtendedWardenEvents.Networking.CommonReplicator
                 });
             }));
             _Replicator.OnStateChanged += OnStateChanged;
+        }
+
+        internal static void LevelCleanup()
+        {
+            SetFailAllowed(true);
         }
 
         public static void SetFailAllowed(bool allowed)

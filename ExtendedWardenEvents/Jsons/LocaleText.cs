@@ -14,6 +14,20 @@ namespace ExtendedWardenEvents.Jsons
         public uint ID;
         public string RawText;
 
+        public LocaleText(LocalizedText baseText)
+        {
+            if (baseText.HasTranslation)
+            {
+                RawText = string.Empty;
+                ID = baseText.Id;
+            }
+            else
+            {
+                RawText = baseText.UntranslatedText;
+                ID = 0u;
+            }
+        }
+
         public LocaleText(string text)
         {
             RawText = text;
@@ -60,6 +74,17 @@ namespace ExtendedWardenEvents.Jsons
                 };
             }
         }
+
+        public override string ToString()
+        {
+            return Translated;
+        }
+
+        public static explicit operator LocaleText(LocalizedText localizedText) => new(localizedText);
+        public static explicit operator LocaleText(string text) => new(text);
+
+        public static implicit operator LocalizedText(LocaleText localeText) => localeText.ToLocalizedText();
+        public static implicit operator string(LocaleText localeText) => localeText.Translated;
 
         public static readonly LocaleText Empty = new(string.Empty);
     }

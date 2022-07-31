@@ -28,4 +28,8 @@
 		<Obfuscate>True</Obfuscate>
 		<DefineConstants>RELEASE</DefineConstants>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Folder Include="LGUtil\" />
+	  <Folder Include="Networking\CommonReplicator\" />
+	</ItemGroup>
 </Project>

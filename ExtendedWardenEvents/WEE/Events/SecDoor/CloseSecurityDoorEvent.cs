@@ -27,7 +27,14 @@ namespace ExtendedWardenEvents.WEE.Events.SecDoor
             {
                 Logger.Debug("Door Closed!");
 
-                door.m_sync.AttemptDoorInteraction(eDoorInteractionType.Close, 0.0f, 0.0f, default, null);
+                var sync = door.m_sync.TryCast<LG_Door_Sync>();
+                if (sync == null)
+                    return;
+
+                var syncState = sync.GetCurrentSyncState();
+                syncState.status = eDoorStatus.Closed;
+                syncState.hasBeenOpenedDuringGame = false;
+                sync.m_stateReplicator.State = syncState;
 
                 var gate = door.Gate;
                 gate.HasBeenOpenedDuringPlay = false;
