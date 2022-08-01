@@ -34,7 +34,7 @@ namespace ExtendedWardenEvents.WEE.Events.HUD
                     break;
                 }
 
-                GuiManager.PlayerLayer.m_objectiveTimer.UpdateTimerText(time, duration, cd.TimerColor);
+                GuiManager.PlayerLayer.m_objectiveTimer.UpdateTimerText(duration - time, duration, cd.TimerColor);
                 time += Time.deltaTime;
                 yield return null;
             }
