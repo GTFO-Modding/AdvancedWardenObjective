@@ -38,6 +38,12 @@ namespace ExtendedWardenEvents.WEE.Replicators
 
         public void TryUpdatePosition(Vector3 position)
         {
+            if (Replicator == null)
+                return;
+
+            if (Replicator.IsInvalid)
+                return;
+
             if (AIG_CourseNode.TryGetCourseNode(position.GetDimension().DimensionIndex, position, 6.0f, out var node))
             {
                 Replicator.SetState(new ScanPositionState()

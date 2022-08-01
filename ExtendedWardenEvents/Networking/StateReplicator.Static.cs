@@ -50,6 +50,7 @@ namespace ExtendedWardenEvents.Networking
 
             Inject_SNet_Capture.OnBufferCapture += BufferStored;
             Inject_SNet_Capture.OnBufferRecalled += BufferRecalled;
+            Inject_LevelCleanup.OnLevelCleanup += LevelCleanedUp;
         }
 
         private static void ClientSyncRequested(SNet_Player requestedPlayer)
@@ -79,6 +80,11 @@ namespace ExtendedWardenEvents.Networking
                     replicator.RestoreSnapshot(type);
                 }   
             }
+        }
+
+        private static void LevelCleanedUp()
+        {
+            UnloadSessionReplicator();
         }
 
         private StateReplicator() {}

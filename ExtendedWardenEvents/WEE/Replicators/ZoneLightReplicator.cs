@@ -107,6 +107,12 @@ namespace ExtendedWardenEvents.WEE.Replicators
 
         public void SetLightSetting(uint lightID, int seed = 0)
         {
+            if (Replicator == null)
+                return;
+
+            if (Replicator.IsInvalid)
+                return;
+
             if (seed == 0)
             {
                 seed = new System.Random().Next();
@@ -121,6 +127,12 @@ namespace ExtendedWardenEvents.WEE.Replicators
 
         public void RevertLightData()
         {
+            if (Replicator == null)
+                return;
+
+            if (Replicator.IsInvalid)
+                return;
+
             Replicator.SetState(new ZoneLightState()
             {
                 lightData = 0
