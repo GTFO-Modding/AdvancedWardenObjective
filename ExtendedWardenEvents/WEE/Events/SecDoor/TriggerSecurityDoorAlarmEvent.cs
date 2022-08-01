@@ -28,7 +28,7 @@ namespace ExtendedWardenEvents.WEE.Events.SecDoor
             }
             else
             {
-                LogDebug($"{zone.NavInfo.GetFormattedText(LG_NavInfoFormat.Full_And_Number_No_Formatting)} Does no have chainedpuzzle to activate");
+                LogDebug($"{zone.NavInfo.GetFormattedText(LG_NavInfoFormat.Full_And_Number_No_Formatting)} Does not have chainedpuzzle to activate");
             }
         }
     }

@@ -39,8 +39,8 @@ namespace ExtendedWardenEvents.WEE
     public sealed class WEE_UpdateFogData
     {
         public bool DoUpdate { get; set; } = false;
-        public float FogTransitionDuration { get; set; }
         public uint FogSetting { get; set; }
+        public float FogTransitionDuration { get; set; }
     }
 
     public sealed class WEE_SubObjectiveData
