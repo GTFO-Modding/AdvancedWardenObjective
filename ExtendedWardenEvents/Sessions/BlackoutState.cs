@@ -1,4 +1,4 @@
-﻿using ExtendedWardenEvents.Networking;
+﻿using AWO.Networking;
 using LevelGeneration;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Sessions
+namespace AWO.Sessions
 {
     internal struct BlackoutStatus
     {

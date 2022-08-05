@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace ExtendedWardenEvents.Jsons.Il2CppJson.Detour
+namespace AWO.Jsons.Il2CppJson.Detour
 {
     internal static class Detour_RerouteJSON_ColorConverter
     {

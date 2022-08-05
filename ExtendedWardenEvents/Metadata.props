@@ -1,7 +1,7 @@
 ﻿<Project>
 	<PropertyGroup>
-		<PluginName>EventsExt</PluginName>
-		<RootNamespace>ExtendedWardenEvents</RootNamespace>
+		<PluginName>AdvancedWardenObjective</PluginName>
+		<RootNamespace>AWO</RootNamespace>
 		<AssemblyName>$(PluginName)</AssemblyName>
 		<Version>1.0.0</Version>
 	</PropertyGroup>

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Networking
+namespace AWO.Networking
 {
     public enum LifeTimeType
     {

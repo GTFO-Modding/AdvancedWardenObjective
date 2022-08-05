@@ -3,7 +3,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ExtendedWardenEvents.Jsons.ManagedJson
+namespace AWO.Jsons.ManagedJson
 {
     internal sealed class LocalizedTextConverter : JsonConverter<LocalizedText>
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Networking.CommonReplicator.Inject
+namespace AWO.Networking.CommonReplicator.Inject
 {
     [HarmonyPatch(typeof(WOManager), nameof(WOManager.CheckExpeditionFailed))]
     internal static class Inject_LevelFailCheck

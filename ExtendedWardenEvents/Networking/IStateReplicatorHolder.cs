@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ExtendedWardenEvents.Networking
+namespace AWO.Networking
 {
     public interface IStateReplicatorHolder<S> where S : struct
     {

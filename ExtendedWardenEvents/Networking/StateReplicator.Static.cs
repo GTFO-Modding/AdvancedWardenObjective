@@ -1,4 +1,4 @@
-﻿using ExtendedWardenEvents.Networking.Inject;
+﻿using AWO.Networking.Inject;
 using GTFO.API;
 using SNetwork;
 using System;
@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Networking
+namespace AWO.Networking
 {
     public sealed partial class StateReplicator<S> where S : struct
     {

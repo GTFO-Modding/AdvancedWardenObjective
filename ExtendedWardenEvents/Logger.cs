@@ -2,7 +2,7 @@
 using BepInEx.Logging;
 using System.Diagnostics;
 
-namespace ExtendedWardenEvents
+namespace AWO
 {
     internal static class Logger
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Sessions.Inject.LG
+namespace AWO.Sessions.Inject.LG
 {
     [HarmonyPatch(typeof(LG_DoorButton))]
     internal static class Inject_LG_DoorButton_Track

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ExtendedWardenEvents.Sessions
+namespace AWO.Sessions
 {
     public static class LG_Objects
     {

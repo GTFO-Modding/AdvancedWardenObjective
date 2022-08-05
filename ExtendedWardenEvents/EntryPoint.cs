@@ -4,17 +4,15 @@ global using WOManager = WardenObjectiveManager;
 
 using BepInEx;
 using BepInEx.IL2CPP;
-using ExtendedWardenEvents.Jsons.Il2CppJson;
-using ExtendedWardenEvents.Sessions;
-using ExtendedWardenEvents.WEE;
+using AWO.Jsons.Il2CppJson;
+using AWO.Sessions;
 using GTFO.API;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Injection;
-using UnityEngine;
+using AWO.Modules.WEE;
 
-namespace ExtendedWardenEvents
+namespace AWO
 {
-    [BepInPlugin("WardenEventExtension", "EventsExt", VersionInfo.Version)]
+    [BepInPlugin("GTFO.AWO", "AWO", VersionInfo.Version)]
     [BepInDependency("dev.gtfomodding.gtfo-api", BepInDependency.DependencyFlags.HardDependency)]
     internal class EntryPoint : BasePlugin
     {
@@ -23,7 +21,7 @@ namespace ExtendedWardenEvents
             WardenEventExt.Initialize();
             Il2CppJsonConverters.Initialize();
 
-            new Harmony("EventsExt.Harmony").PatchAll();
+            new Harmony("AWO.Harmony").PatchAll();
 
             AssetAPI.OnStartupAssetsLoaded += AssetAPI_OnStartupAssetsLoaded;
         }

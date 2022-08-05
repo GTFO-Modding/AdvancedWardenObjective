@@ -1,5 +1,5 @@
-﻿using ExtendedWardenEvents.Networking;
-using ExtendedWardenEvents.Networking.CommonReplicator.Inject;
+﻿using AWO.Networking;
+using AWO.Networking.CommonReplicator.Inject;
 using LevelGeneration;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Sessions
+namespace AWO.Sessions
 {
     internal struct LevelFailCheck
     {

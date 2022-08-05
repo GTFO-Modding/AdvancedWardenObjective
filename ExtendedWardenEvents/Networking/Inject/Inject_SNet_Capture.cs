@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Networking.Inject
+namespace AWO.Networking.Inject
 {
     [HarmonyPatch(typeof(SNet_Capture))]
     internal static class Inject_SNet_Capture

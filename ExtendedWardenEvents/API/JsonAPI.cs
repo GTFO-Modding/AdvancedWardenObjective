@@ -1,4 +1,4 @@
-﻿using ExtendedWardenEvents.WEE.Converter;
+﻿using AWO.WEE.Converter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.API
+namespace AWO.API
 {
     public static class JsonAPI
     {

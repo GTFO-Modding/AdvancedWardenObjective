@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Sessions.Inject
+namespace AWO.Sessions.Inject
 {
     [HarmonyPatch(typeof(Global), nameof(Global.OnLevelCleanup))]
     internal static class Inject_Global_LevelCleanup

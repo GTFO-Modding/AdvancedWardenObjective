@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace ExtendedWardenEvents.Jsons.Il2CppJson
+namespace AWO.Jsons.Il2CppJson
 {
     public interface INativeJsonConverter
     {

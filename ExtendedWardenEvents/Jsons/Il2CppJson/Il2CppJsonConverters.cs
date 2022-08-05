@@ -1,9 +1,9 @@
-﻿using ExtendedWardenEvents.Jsons.Il2CppJson.Detour;
+﻿using AWO.Jsons.Il2CppJson.Detour;
 using Il2CppInterop.Runtime;
 using System;
 using System.Collections.Generic;
 
-namespace ExtendedWardenEvents.Jsons.Il2CppJson
+namespace AWO.Jsons.Il2CppJson
 {
     public static class Il2CppJsonConverters
     {

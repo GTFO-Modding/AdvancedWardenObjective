@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Sessions.Inject.LG
+namespace AWO.Sessions.Inject.LG
 {
     [HarmonyPatch(typeof(LG_HSUActivator_Core))]
     internal static class Inject_LG_HSUActivator_Track

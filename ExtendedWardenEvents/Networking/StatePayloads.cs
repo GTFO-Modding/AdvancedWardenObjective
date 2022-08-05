@@ -3,7 +3,7 @@ using SNetwork;
 using System;
 using System.Runtime.InteropServices;
 
-namespace ExtendedWardenEvents.Networking
+namespace AWO.Networking
 {
     public delegate void OnReceiveDel<S>(ulong sender, uint replicatorID, S newState) where S : struct;
 

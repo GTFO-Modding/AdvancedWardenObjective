@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtendedWardenEvents.Networking
+namespace AWO.Networking
 {
     public sealed class ReplicatorHandshake
     {
