@@ -130,7 +130,6 @@ namespace ExtendedWardenEvents.Networking
             return replicator;
         }
 
-        //Just need to call this!
         public static void UnloadSessionReplicator()
         {
             List<uint> idsToRemove = new();
