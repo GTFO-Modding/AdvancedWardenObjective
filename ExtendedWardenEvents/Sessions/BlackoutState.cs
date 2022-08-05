@@ -85,6 +85,14 @@ namespace ExtendedWardenEvents.Sessions
                     continue;
 
                 locks.m_intHack.m_isActive = isNormal;
+
+                var display = locks.transform.FindChild("HackableLock/SecurityLock/g_WeakLock/Security_Display_Locked");
+                if (display != null) display.gameObject.active = isNormal;
+                else
+                {
+                    display = locks.transform.FindChild("HackableLock/Security_Display_Locked");
+                    if (display != null) display.gameObject.active = isNormal;
+                }
             }
 
             foreach (var activator in LG_Objects.HSUActivators)
