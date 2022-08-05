@@ -162,6 +162,7 @@ namespace ExtendedWardenEvents.WEE
     {
         public ModifierType Type { get; set; } = ModifierType.RevertToOriginal;
         public uint LightDataID { get; set; }
+        public float TransitionDuration { get; set; } = 0.5f;
         public int Seed { get; set; } = 0; //Random on Zero
 
         public enum ModifierType : byte

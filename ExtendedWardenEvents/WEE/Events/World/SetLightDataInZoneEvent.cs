@@ -26,7 +26,7 @@ namespace ExtendedWardenEvents.WEE.Events.World
                 var replicator = zone.GetComponent<ZoneLightReplicator>();
                 if (setting.Type == WEE_ZoneLightData.ModifierType.SetZoneLightData)
                 {
-                    replicator.SetLightSetting(setting.LightDataID, setting.Seed);
+                    replicator.SetLightSetting(setting);
                 }
                 else if (setting.Type == WEE_ZoneLightData.ModifierType.RevertToOriginal)
                 {
