@@ -40,7 +40,7 @@ namespace ExtendedWardenEvents.WEE.Converter
             }
         }
 
-        private static WardenObjectiveEventData ParseJson(string json, out bool hasExtData, out WEE_EventData extData)
+        public static WardenObjectiveEventData ParseJson(string json, out bool hasExtData, out WEE_EventData extData)
         {
             try
             {
