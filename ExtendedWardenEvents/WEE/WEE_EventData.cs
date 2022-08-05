@@ -13,7 +13,18 @@ namespace ExtendedWardenEvents.WEE
     public sealed class WEE_EventData
     {
         public WEEType Type { get; set; }
+
+        //Vanilla Fields for Serialization
+        public WorldEventConditionPair Condition { get; set; } = new()
+        {
+            ConditionIndex = -1,
+            IsTrue = false
+        };
+        public uint ChainPuzzle { get; set; } = 0u;
+        public bool UseStaticBioscanPoints { get; set; } = false;
         public eWardenObjectiveEventTrigger Trigger { get; set; } = eWardenObjectiveEventTrigger.None;
+
+        //Common Fields
         public eDimensionIndex DimensionIndex { get; set; } = eDimensionIndex.Reality;
         public LG_LayerType Layer { get; set; } = LG_LayerType.MainLayer;
         public eLocalZoneIndex LocalIndex { get; set; } = eLocalZoneIndex.Zone_0;
@@ -34,6 +45,18 @@ namespace ExtendedWardenEvents.WEE
         public WEE_CountdownData Countdown { get; set; } = new();
         public WEE_CleanupEnemiesData CleanupEnemies { get; set; } = new();
         public WEE_ZoneLightData SetZoneLight { get; set; } = new();
+
+        public WardenObjectiveEventData CreateDummyEventData()
+        {
+            return new()
+            {
+                Type = (eWardenObjectiveEventType)(int)Type,
+                ChainPuzzle = ChainPuzzle,
+                UseStaticBioscanPoints = UseStaticBioscanPoints,
+                Trigger = Trigger,
+                Condition = Condition
+            };
+        }
     }
 
     public sealed class WEE_UpdateFogData

@@ -95,10 +95,7 @@ namespace ExtendedWardenEvents.WEE.Converter
             DeserializeToExtData:
                 extData = JSON.Deserialize<WEE_EventData>(json, _JsonOption);
                 hasExtData = extData != null;
-                return new WardenObjectiveEventData()
-                {
-                    Type = (eWardenObjectiveEventType)(int)extData.Type
-                };
+                return extData.CreateDummyEventData();
 
             DeserializeToDefaultData:
                 var data = JSON.Deserialize<WardenObjectiveEventData>(json, _JsonOption);
