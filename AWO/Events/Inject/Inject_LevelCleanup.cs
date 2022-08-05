@@ -6,16 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AWO.Networking.Inject
+namespace AWO.Events.Inject
 {
     [HarmonyPatch(typeof(Global), nameof(Global.OnLevelCleanup))]
     internal static class Inject_LevelCleanup
     {
-        public static event Action OnLevelCleanup;
-
         private static void Postfix()
         {
-            OnLevelCleanup?.Invoke();
+            LevelEvents.Invoke_OnLevelCleanup();
         }
     }
 }

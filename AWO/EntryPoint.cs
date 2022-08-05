@@ -1,5 +1,6 @@
 ﻿global using BepInEx.IL2CPP.Utils.Collections;
 global using Il2CppInterop.Runtime.Attributes;
+global using AWO.Events;
 global using WOManager = WardenObjectiveManager;
 
 using BepInEx;

@@ -1,5 +1,4 @@
 ﻿using ChainedPuzzles;
-using AWO.WEE.Inject;
 using AWO.WEE.Replicators;
 using LevelGeneration;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AWO.Modules.WEE;
+using AWO.Events.Inject;
 
 namespace AWO.WEE.Events.World
 {
@@ -19,7 +19,7 @@ namespace AWO.WEE.Events.World
 
         protected override void OnSetup()
         {
-            Inject_LG_Factory.PostFactoryDone += PostFactoryDone;
+            LevelEvents.OnLevelBuildDoneLate += PostFactoryDone;
         }
 
         private void PostFactoryDone()
