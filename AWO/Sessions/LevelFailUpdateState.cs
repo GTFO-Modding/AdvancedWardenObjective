@@ -33,9 +33,10 @@ namespace AWO.Sessions
                 });
             }));
             _Replicator.OnStateChanged += OnStateChanged;
+            LevelEvents.OnLevelCleanup += LevelCleanup;
         }
 
-        internal static void LevelCleanup()
+        private static void LevelCleanup()
         {
             SetFailAllowed(true);
         }

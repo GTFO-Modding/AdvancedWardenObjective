@@ -26,9 +26,10 @@ namespace AWO.Sessions
 
             _Replicator = StateReplicator<BlackoutStatus>.Create(1u, new() { blackoutEnabled = false }, LifeTimeType.Permanent);
             _Replicator.OnStateChanged += OnStateChanged;
+            LevelEvents.OnLevelCleanup += LevelCleanup;
         }
 
-        internal static void LevelCleanup()
+        private static void LevelCleanup()
         {
             SetEnabled(false);
         }

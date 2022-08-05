@@ -22,6 +22,16 @@ namespace AWO.Sessions
         private readonly static List<LG_WeakLock> _WeakLockList = new();
         private readonly static List<LG_HSUActivator_Core> _HSUActivatorList = new();
 
+        static LG_Objects()
+        {
+            LevelEvents.OnLevelCleanup += OnLevelCleanup;
+        }
+
+        private static void OnLevelCleanup()
+        {
+            Clear();
+        }
+
         internal static void Clear()
         {
             _TerminalList.Clear();
