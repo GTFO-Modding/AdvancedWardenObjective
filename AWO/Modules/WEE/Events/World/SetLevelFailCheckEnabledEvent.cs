@@ -13,7 +13,7 @@ namespace AWO.WEE.Events
 {
     internal sealed class SetLevelFailCheckEnabledEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.SetLevelFailCheckEnabled;
+        public override WEE_Type EventType => WEE_Type.SetLevelFailCheckEnabled;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

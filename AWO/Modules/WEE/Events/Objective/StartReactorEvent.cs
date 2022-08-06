@@ -6,7 +6,7 @@ namespace AWO.WEE.Events.Objective
 {
     internal sealed class StartReactorEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.StartReactor;
+        public override WEE_Type EventType => WEE_Type.StartReactor;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

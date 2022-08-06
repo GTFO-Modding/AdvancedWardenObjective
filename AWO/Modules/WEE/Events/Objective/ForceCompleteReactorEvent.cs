@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.Objective
 {
     internal sealed class ForceCompleteReactorEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.ForceCompleteReactor;
+        public override WEE_Type EventType => WEE_Type.ForceCompleteReactor;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

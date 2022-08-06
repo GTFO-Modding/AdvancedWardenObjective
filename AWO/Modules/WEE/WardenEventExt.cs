@@ -16,7 +16,7 @@ namespace AWO.Modules.WEE
 {
     public static class WardenEventExt
     {
-        internal readonly static Dictionary<WEEType, BaseEvent> _EventsToTrigger = new();
+        internal readonly static Dictionary<WEE_Type, BaseEvent> _EventsToTrigger = new();
 
         static WardenEventExt()
         {
@@ -44,13 +44,13 @@ namespace AWO.Modules.WEE
             ClassInjector.RegisterTypeInIl2Cpp<ZoneLightReplicator>();
 
             Il2CppJsonConverters.RegisterConverter(new EventDataConverter());
-            WEEEnumInjector.Inject();
+            WEE_EnumInjector.Inject();
             Detour_ExecuteEvent.Patch();
         }
 
-        internal static void HandleEvent(WEEType type, WardenObjectiveEventData e, float currentDuration)
+        internal static void HandleEvent(WEE_Type type, WardenObjectiveEventData e, float currentDuration)
         {
-            if (WEEDataHolder.TryGetWEEData(e, out var data))
+            if (WEE_DataHolder.TryGetWEEData(e, out var data))
             {
                 CoroutineManager.StartCoroutine(Handle(type, data, currentDuration).WrapToIl2Cpp(), null);
             }
@@ -60,7 +60,7 @@ namespace AWO.Modules.WEE
             }
         }
 
-        private static IEnumerator Handle(WEEType type, WEE_EventData e, float currentDuration)
+        private static IEnumerator Handle(WEE_Type type, WEE_EventData e, float currentDuration)
         {
             float delay = Mathf.Max(e.Delay - currentDuration, 0f);
             if (delay > 0f)

@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.Objective
 {
     internal sealed class ModifyReactorWaveStateEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.ModifyReactorWaveState;
+        public override WEE_Type EventType => WEE_Type.ModifyReactorWaveState;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

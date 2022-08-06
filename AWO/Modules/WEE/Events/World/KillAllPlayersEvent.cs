@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.World
 {
     internal sealed class KillAllPlayersEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.KillAllPlayers;
+        public override WEE_Type EventType => WEE_Type.KillAllPlayers;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

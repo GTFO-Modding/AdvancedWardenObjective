@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.Enemy
 {
     internal sealed class AlertEnemiesInZoneEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.AlertEnemiesInZone;
+        public override WEE_Type EventType => WEE_Type.AlertEnemiesInZone;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

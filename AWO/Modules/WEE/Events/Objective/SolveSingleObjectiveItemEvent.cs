@@ -4,7 +4,7 @@ namespace AWO.WEE.Events.Objective
 {
     internal sealed class SolveSingleObjectiveItemEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.SolveSingleObjectiveItem;
+        public override WEE_Type EventType => WEE_Type.SolveSingleObjectiveItem;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

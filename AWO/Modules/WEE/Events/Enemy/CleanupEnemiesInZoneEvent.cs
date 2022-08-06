@@ -9,7 +9,7 @@ namespace AWO.WEE.Events.Enemy
 {
     internal class CleanupEnemiesInZoneEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.CleanupEnemiesInZone;
+        public override WEE_Type EventType => WEE_Type.CleanupEnemiesInZone;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

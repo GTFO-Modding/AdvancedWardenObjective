@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.SecDoor
 {
     internal class SolveSecurityDoorAlarmEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.SolveSecurityDoorAlarm;
+        public override WEE_Type EventType => WEE_Type.SolveSecurityDoorAlarm;
         private readonly System.Random _Rand = new();
 
         protected override void TriggerCommon(WEE_EventData e)

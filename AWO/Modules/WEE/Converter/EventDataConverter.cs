@@ -30,7 +30,7 @@ namespace AWO.WEE.Converter
                 var result = ParseJson(json, out var hasExtData, out var extData);
                 if (hasExtData)
                 {
-                    WEEDataHolder.PushWEEData(result, extData);
+                    WEE_DataHolder.PushWEEData(result, extData);
                 }
                 return result;
             }
@@ -54,7 +54,7 @@ namespace AWO.WEE.Converter
                         case JsonValueKind.Number:
                             if (typeProp.TryGetInt32(out var id))
                             {
-                                if (Enum.IsDefined((WEEType)id))
+                                if (Enum.IsDefined((WEE_Type)id))
                                 {
                                     goto DeserializeToExtData;
                                 }
@@ -69,7 +69,7 @@ namespace AWO.WEE.Converter
                             var strValue = typeProp.GetString();
                             if (!string.IsNullOrWhiteSpace(strValue))
                             {
-                                if (Enum.TryParse<WEEType>(strValue, ignoreCase: true, out var extType))
+                                if (Enum.TryParse<WEE_Type>(strValue, ignoreCase: true, out var extType))
                                 {
                                     goto DeserializeToExtData;
                                 }

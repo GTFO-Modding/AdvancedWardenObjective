@@ -12,7 +12,7 @@ namespace AWO.Modules.WEE
 {
     public sealed class WEE_EventData
     {
-        public WEEType Type { get; set; }
+        public WEE_Type Type { get; set; }
 
         //Vanilla Fields for Serialization
         public WorldEventConditionPair Condition { get; set; } = new()

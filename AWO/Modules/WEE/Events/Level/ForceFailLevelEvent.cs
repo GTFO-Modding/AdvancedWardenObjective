@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.Level
 {
     internal sealed class ForceFailLevelEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.ForceFailLevel;
+        public override WEE_Type EventType => WEE_Type.ForceFailLevel;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

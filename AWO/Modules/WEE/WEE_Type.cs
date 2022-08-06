@@ -1,9 +1,9 @@
 ﻿namespace AWO.Modules.WEE
 {
-    public enum WEEType
+    public enum WEE_Type
     {
         CloseSecurityDoor //Done
-            = WEEEnumInjector.ExtendedIndex + 0,
+            = WEE_EnumInjector.ExtendedIndex + 0,
 
         LockSecurityDoor, //Done
         SetDoorInteraction,

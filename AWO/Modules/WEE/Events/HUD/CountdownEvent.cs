@@ -12,7 +12,7 @@ namespace AWO.WEE.Events.HUD
 {
     internal sealed class CountdownEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.Countdown;
+        public override WEE_Type EventType => WEE_Type.Countdown;
 
         protected override void TriggerCommon(WEE_EventData e)
         {

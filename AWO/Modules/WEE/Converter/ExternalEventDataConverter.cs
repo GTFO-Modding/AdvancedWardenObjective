@@ -22,7 +22,7 @@ namespace AWO.WEE.Converter
                 var result = EventDataConverter.ParseJson(json, out var hasExtData, out var extData);
                 if (hasExtData)
                 {
-                    WEEDataHolder.PushWEEData(result, extData);
+                    WEE_DataHolder.PushWEEData(result, extData);
                 }
                 return result;
             }

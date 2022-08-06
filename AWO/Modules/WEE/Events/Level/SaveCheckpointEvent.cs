@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.Level
 {
     internal sealed class SaveCheckpointEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.SaveCheckpoint;
+        public override WEE_Type EventType => WEE_Type.SaveCheckpoint;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

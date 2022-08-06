@@ -11,7 +11,7 @@ namespace AWO.WEE.Events.Level
 {
     internal sealed class ForceCompleteLevelEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.ForceCompleteLevel;
+        public override WEE_Type EventType => WEE_Type.ForceCompleteLevel;
 
         protected override void TriggerMaster(WEE_EventData e)
         {

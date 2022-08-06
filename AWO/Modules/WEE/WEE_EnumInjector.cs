@@ -5,16 +5,16 @@ using System.Collections.Generic;
 
 namespace AWO.Modules.WEE
 {
-    internal static class WEEEnumInjector
+    internal static class WEE_EnumInjector
     {
         public const int ExtendedIndex = 10000;
         private readonly static Dictionary<string, object> _EventTypes = new();
         private static int _CurrentIndex = 0;
 
 
-        static WEEEnumInjector()
+        static WEE_EnumInjector()
         {
-            foreach (var value in Enum.GetValues<WEEType>())
+            foreach (var value in Enum.GetValues<WEE_Type>())
             {
                 var name = value.ToString();
                 AddEvent(name);

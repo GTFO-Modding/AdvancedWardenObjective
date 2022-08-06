@@ -65,9 +65,9 @@ namespace AWO.WEE.Detours
             var context = new ExecuteEventContext(_this);
             var data = context.Data;
             var type = data.Type;
-            if (Enum.IsDefined(typeof(WEEType), (int)type))
+            if (Enum.IsDefined(typeof(WEE_Type), (int)type))
             {
-                var extType = (WEEType)type;
+                var extType = (WEE_Type)type;
                 Logger.Debug($"Found Extra WOE '{extType}' Aborting Original Call!");
                 WardenEventExt.HandleEvent(extType, context.Data, context.CurrentDuration);
                 context.State = -1;

@@ -11,7 +11,7 @@ namespace AWO.WEE.Events.SecDoor
 {
     internal sealed class LockSecurityDoorEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.LockSecurityDoor;
+        public override WEE_Type EventType => WEE_Type.LockSecurityDoor;
 
         protected override void TriggerCommon(WEE_EventData e)
         {

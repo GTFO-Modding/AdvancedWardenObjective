@@ -13,7 +13,7 @@ namespace AWO.WEE.Events
         protected PlayerAgent LocalPlayer { get; private set; }
         protected static bool IsMaster => SNet.IsMaster;
         protected static bool HasMaster => SNet.HasMaster;
-        public abstract WEEType EventType { get; }
+        public abstract WEE_Type EventType { get; }
 
         public void Setup()
         {

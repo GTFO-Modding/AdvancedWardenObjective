@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AWO.Modules.WEE
 {
-    internal static class WEEDataHolder
+    internal static class WEE_DataHolder
     {
         private readonly static Dictionary<int, DataSet> _Lookup = new();
         private static int _Key = int.MinValue;

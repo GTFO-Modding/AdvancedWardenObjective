@@ -10,7 +10,7 @@ namespace AWO.WEE.Events.World
 {
     internal sealed class SetLightDataInZoneEvent : BaseEvent
     {
-        public override WEEType EventType => WEEType.SetLightDataInZone;
+        public override WEE_Type EventType => WEE_Type.SetLightDataInZone;
 
         protected override void TriggerMaster(WEE_EventData e)
         {
