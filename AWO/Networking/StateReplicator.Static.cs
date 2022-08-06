@@ -1,193 +1,188 @@
-﻿using AWO.Events.Inject;
-using AWO.Networking.Inject;
-using GTFO.API;
+﻿using AWO.Networking.Inject;
 using SNetwork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AWO.Networking
+namespace AWO.Networking;
+
+public sealed partial class StateReplicator<S> where S : struct
 {
-    public sealed partial class StateReplicator<S> where S : struct
+    public static readonly string Name;
+    public static readonly string HashName;
+    public static readonly string ClientRequestEventName;
+    public static readonly string HostSetStateEventName;
+    public static readonly string HostSetRecallStateEventName;
+    public static readonly int StateSize;
+    public static readonly StatePayloads.Size StateSizeType;
+
+    private static readonly IReplicatorEvent<S> _C_RequestEvent;
+    private static readonly IReplicatorEvent<S> _H_SetStateEvent;
+    private static readonly IReplicatorEvent<S> _H_SetRecallStateEvent;
+    private static readonly ReplicatorHandshake _Handshake;
+
+    private static readonly Dictionary<uint, StateReplicator<S>> _Replicators = new();
+
+    static StateReplicator()
     {
-        public static readonly string Name;
-        public static readonly string HashName;
-        public static readonly string ClientRequestEventName;
-        public static readonly string HostSetStateEventName;
-        public static readonly string HostSetRecallStateEventName;
-        public static readonly int StateSize;
-        public static readonly StatePayloads.Size StateSizeType;
+        Name = typeof(S).Name;
 
-        private static readonly IReplicatorEvent<S> _C_RequestEvent;
-        private static readonly IReplicatorEvent<S> _H_SetStateEvent;
-        private static readonly IReplicatorEvent<S> _H_SetRecallStateEvent;
-        private static readonly ReplicatorHandshake _Handshake;
+        StateSize = Marshal.SizeOf(typeof(S));
+        StateSizeType = StatePayloads.GetSizeType(StateSize);
 
-        private static readonly Dictionary<uint, StateReplicator<S>> _Replicators = new();
+        using var md5 = MD5.Create();
+        byte[] bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(typeof(S).FullName));
+        HashName = Convert.ToBase64String(bytes);
+        ClientRequestEventName = $"SRs{Name}-{HashName}";
+        HostSetStateEventName = $"SRr{Name}-{HashName}";
+        HostSetRecallStateEventName = $"SRre{Name}-{HashName}";
 
-        static StateReplicator()
+        _C_RequestEvent = StatePayloads.CreateEvent<S>(StateSizeType, ClientRequestEventName, ClientRequestEventCallback);
+        _H_SetStateEvent = StatePayloads.CreateEvent<S>(StateSizeType, HostSetStateEventName, HostSetStateEventCallback);
+        _H_SetRecallStateEvent = StatePayloads.CreateEvent<S>(StateSizeType, HostSetRecallStateEventName, HostSetRecallStateEventCallback);
+        _Handshake = ReplicatorHandshake.Create($"{Name}-{HashName}");
+        _Handshake.OnClientSyncRequested += ClientSyncRequested;
+
+        Inject_SNet_Capture.OnBufferCapture += BufferStored;
+        Inject_SNet_Capture.OnBufferRecalled += BufferRecalled;
+        LevelEvents.OnLevelCleanup += LevelCleanedUp;
+    }
+
+    private static void ClientSyncRequested(SNet_Player requestedPlayer)
+    {
+        foreach (var replicator in _Replicators.Values)
         {
-            Name = typeof(S).Name;
-
-            StateSize = Marshal.SizeOf(typeof(S));
-            StateSizeType = StatePayloads.GetSizeType(StateSize);
-
-            using var md5 = MD5.Create();
-            byte[] bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(typeof(S).FullName));
-            HashName = Convert.ToBase64String(bytes);
-            ClientRequestEventName = $"SRs{Name}-{HashName}";
-            HostSetStateEventName = $"SRr{Name}-{HashName}";
-            HostSetRecallStateEventName = $"SRre{Name}-{HashName}";
-
-            _C_RequestEvent = StatePayloads.CreateEvent<S>(StateSizeType, ClientRequestEventName, ClientRequestEventCallback);
-            _H_SetStateEvent =  StatePayloads.CreateEvent<S>(StateSizeType, HostSetStateEventName, HostSetStateEventCallback);
-            _H_SetRecallStateEvent = StatePayloads.CreateEvent<S>(StateSizeType, HostSetRecallStateEventName, HostSetRecallStateEventCallback);
-            _Handshake = ReplicatorHandshake.Create($"{Name}-{HashName}");
-            _Handshake.OnClientSyncRequested += ClientSyncRequested;
-
-            Inject_SNet_Capture.OnBufferCapture += BufferStored;
-            Inject_SNet_Capture.OnBufferRecalled += BufferRecalled;
-            LevelEvents.OnLevelCleanup += LevelCleanedUp;
+            if (replicator.IsValid)
+                replicator.SendDropInState(requestedPlayer);
         }
+    }
 
-        private static void ClientSyncRequested(SNet_Player requestedPlayer)
+    private static void BufferStored(eBufferType type)
+    {
+        foreach (var replicator in _Replicators.Values)
         {
-            foreach (var replicator in _Replicators.Values)
-            {
-                if (replicator.IsValid)
-                    replicator.SendDropInState(requestedPlayer);
-            }
+            if (replicator.IsValid)
+                replicator.SaveSnapshot(type);
         }
+    }
 
-        private static void BufferStored(eBufferType type)
+    private static void BufferRecalled(eBufferType type)
+    {
+        foreach (var replicator in _Replicators.Values)
         {
-            foreach (var replicator in _Replicators.Values)
+            if (replicator.IsValid)
             {
-                if (replicator.IsValid)
-                    replicator.SaveSnapshot(type);
+                replicator.RestoreSnapshot(type);
             }
         }
+    }
 
-        private static void BufferRecalled(eBufferType type)
+    private static void LevelCleanedUp()
+    {
+        UnloadSessionReplicator();
+    }
+
+    private StateReplicator() { }
+
+    public static StateReplicator<S> Create(uint replicatorID, S startState, LifeTimeType lifeTime, IStateReplicatorHolder<S> holder = null)
+    {
+        if (replicatorID == 0u)
         {
-            foreach (var replicator in _Replicators.Values)
-            {
-                if (replicator.IsValid)
-                {
-                    replicator.RestoreSnapshot(type);
-                }   
-            }
+            Logger.Error("Replicator ID 0 is reserved for empty!");
+            return null;
         }
 
-        private static void LevelCleanedUp()
+        if (_Replicators.ContainsKey(replicatorID))
         {
-            UnloadSessionReplicator();
+            Logger.Error("Replicator ID has already assigned!");
+            return null;
         }
 
-        private StateReplicator() {}
-
-        public static StateReplicator<S> Create(uint replicatorID, S startState, LifeTimeType lifeTime, IStateReplicatorHolder<S> holder = null)
+        var replicator = new StateReplicator<S>
         {
-            if (replicatorID == 0u)
-            {
-                Logger.Error("Replicator ID 0 is reserved for empty!");
-                return null;
-            }
+            ID = replicatorID,
+            LifeTime = lifeTime,
+            Holder = holder,
+            State = startState
+        };
 
-            if (_Replicators.ContainsKey(replicatorID))
-            {
-                Logger.Error("Replicator ID has already assigned!");
-                return null;
-            }
-
-            var replicator = new StateReplicator<S>
-            {
-                ID = replicatorID,
-                LifeTime = lifeTime,
-                Holder = holder,
-                State = startState
-            };
-
-            if (lifeTime == LifeTimeType.Permanent)
-            {
-                Logger.Debug($"LifeTime is {nameof(LifeTimeType.Permanent)} :: Handshaking is disabled!");
-            }
-            else if (lifeTime == LifeTimeType.Session)
-            {
-                _Handshake.UpdateCreated(replicatorID);
-            }
-            else
-            {
-                Logger.Error($"LifeTime is invalid!: {lifeTime}");
-                return null;
-            }
-            
-
-            _Replicators[replicatorID] = replicator;
-            return replicator;
+        if (lifeTime == LifeTimeType.Permanent)
+        {
+            Logger.Debug($"LifeTime is {nameof(LifeTimeType.Permanent)} :: Handshaking is disabled!");
+        }
+        else if (lifeTime == LifeTimeType.Session)
+        {
+            _Handshake.UpdateCreated(replicatorID);
+        }
+        else
+        {
+            Logger.Error($"LifeTime is invalid!: {lifeTime}");
+            return null;
         }
 
-        public static void UnloadSessionReplicator()
+
+        _Replicators[replicatorID] = replicator;
+        return replicator;
+    }
+
+    public static void UnloadSessionReplicator()
+    {
+        List<uint> idsToRemove = new();
+        foreach (var replicator in _Replicators.Values)
         {
-            List<uint> idsToRemove = new();
-            foreach (var replicator in _Replicators.Values)
+            if (replicator.LifeTime == LifeTimeType.Session)
             {
-                if (replicator.LifeTime == LifeTimeType.Session)
-                {
-                    idsToRemove.Add(replicator.ID);
-                    replicator.Unload();
-                }
-            }
-
-            foreach (var id in idsToRemove)
-            {
-                _Replicators.Remove(id);
-            }
-
-            _Handshake.Reset();
-        }
-
-        private static void ClientRequestEventCallback(ulong sender, uint replicatorID, S newState)
-        {
-            if (!SNet.IsMaster)
-                return;
-
-            if (_Replicators.TryGetValue(replicatorID, out var replicator))
-            {
-                replicator.SetState(newState);
+                idsToRemove.Add(replicator.ID);
+                replicator.Unload();
             }
         }
 
-        private static void HostSetStateEventCallback(ulong sender, uint replicatorID, S newState)
+        foreach (var id in idsToRemove)
         {
-            if (!SNet.HasMaster)
-                return;
-
-            if (SNet.Master.Lookup != sender)
-                return;
-
-            if (_Replicators.TryGetValue(replicatorID, out var replicator))
-            {
-                replicator.Internal_ChangeState(newState, isRecall: false);
-            }
+            _Replicators.Remove(id);
         }
 
-        private static void HostSetRecallStateEventCallback(ulong sender, uint replicatorID, S newState)
+        _Handshake.Reset();
+    }
+
+    private static void ClientRequestEventCallback(ulong sender, uint replicatorID, S newState)
+    {
+        if (!SNet.IsMaster)
+            return;
+
+        if (_Replicators.TryGetValue(replicatorID, out var replicator))
         {
-            if (!SNet.HasMaster)
-                return;
+            replicator.SetState(newState);
+        }
+    }
 
-            if (SNet.Master.Lookup != sender)
-                return;
+    private static void HostSetStateEventCallback(ulong sender, uint replicatorID, S newState)
+    {
+        if (!SNet.HasMaster)
+            return;
 
-            if (_Replicators.TryGetValue(replicatorID, out var replicator))
-            {
-                replicator.Internal_ChangeState(newState, isRecall: true);
-            }
+        if (SNet.Master.Lookup != sender)
+            return;
+
+        if (_Replicators.TryGetValue(replicatorID, out var replicator))
+        {
+            replicator.Internal_ChangeState(newState, isRecall: false);
+        }
+    }
+
+    private static void HostSetRecallStateEventCallback(ulong sender, uint replicatorID, S newState)
+    {
+        if (!SNet.HasMaster)
+            return;
+
+        if (SNet.Master.Lookup != sender)
+            return;
+
+        if (_Replicators.TryGetValue(replicatorID, out var replicator))
+        {
+            replicator.Internal_ChangeState(newState, isRecall: true);
         }
     }
 }

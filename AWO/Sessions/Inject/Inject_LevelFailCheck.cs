@@ -1,23 +1,17 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AWO.Networking.CommonReplicator.Inject
+namespace AWO.Networking.CommonReplicator.Inject;
+
+[HarmonyPatch(typeof(WOManager), nameof(WOManager.CheckExpeditionFailed))]
+internal static class Inject_LevelFailCheck
 {
-    [HarmonyPatch(typeof(WOManager), nameof(WOManager.CheckExpeditionFailed))]
-    internal static class Inject_LevelFailCheck
-    {
-        public static bool LevelFailAllowed = true;
+    public static bool LevelFailAllowed = true;
 
-        private static void Postfix(ref bool __result)
+    private static void Postfix(ref bool __result)
+    {
+        if (!LevelFailAllowed)
         {
-            if (!LevelFailAllowed)
-            {
-                __result = false;
-            }
+            __result = false;
         }
     }
 }

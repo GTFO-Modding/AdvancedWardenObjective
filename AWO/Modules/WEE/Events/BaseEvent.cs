@@ -1,128 +1,126 @@
 ﻿using AWO.Modules.WEE;
 using BepInEx.Core.Logging.Interpolation;
-using GameData;
 using LevelGeneration;
 using Player;
 using SNetwork;
 
-namespace AWO.WEE.Events
+namespace AWO.WEE.Events;
+
+internal abstract class BaseEvent
 {
-    internal abstract class BaseEvent
+    public string Name { get; private set; } = string.Empty;
+    protected PlayerAgent LocalPlayer { get; private set; }
+    protected static bool IsMaster => SNet.IsMaster;
+    protected static bool HasMaster => SNet.HasMaster;
+    public abstract WEE_Type EventType { get; }
+
+    public void Setup()
     {
-        public string Name { get; private set; } = string.Empty;
-        protected PlayerAgent LocalPlayer { get; private set; }
-        protected static bool IsMaster => SNet.IsMaster;
-        protected static bool HasMaster => SNet.HasMaster;
-        public abstract WEE_Type EventType { get; }
+        Name = GetType().Name;
+        OnSetup();
+    }
 
-        public void Setup()
+    public void Trigger(WEE_EventData e)
+    {
+        if (!PlayerManager.HasLocalPlayerAgent())
         {
-            Name = GetType().Name;
-            OnSetup();
+            Logger.Error($"Doesn't have LocalPlayer while triggering {Name} wtf?");
+            return;
         }
 
-        public void Trigger(WEE_EventData e)
+        LocalPlayer = PlayerManager.GetLocalPlayerAgent();
+        TriggerCommon(e);
+
+        if (SNet.IsMaster) TriggerMaster(e);
+        else TriggerClient(e);
+    }
+
+    protected virtual void OnSetup() { }
+    protected virtual void TriggerCommon(WEE_EventData e) { }
+    protected virtual void TriggerClient(WEE_EventData e) { }
+    protected virtual void TriggerMaster(WEE_EventData e) { }
+
+    protected void LogInfo(string msg) => Logger.Info($"[{Name}] {msg}");
+    protected void LogInfo(BepInExInfoLogInterpolatedStringHandler handler)
+    {
+        if (handler.Enabled)
         {
-            if (!PlayerManager.HasLocalPlayerAgent())
-            {
-                Logger.Error($"Doesn't have LocalPlayer while triggering {Name} wtf?");
-                return;
-            }
-
-            LocalPlayer = PlayerManager.GetLocalPlayerAgent();
-            TriggerCommon(e);
-
-            if (SNet.IsMaster) TriggerMaster(e);
-            else TriggerClient(e);
+            Logger.Info($"[{Name}] {handler}");
         }
+    }
 
-        protected virtual void OnSetup() { }
-        protected virtual void TriggerCommon(WEE_EventData e) { }
-        protected virtual void TriggerClient(WEE_EventData e) { }
-        protected virtual void TriggerMaster(WEE_EventData e) { }
-
-        protected void LogInfo(string msg) => Logger.Info($"[{Name}] {msg}");
-        protected void LogInfo(BepInExInfoLogInterpolatedStringHandler handler)
+    protected void LogDebug(string msg) => Logger.Debug($"[{Name}] {msg}");
+    protected void LogDebug(BepInExDebugLogInterpolatedStringHandler handler)
+    {
+        if (handler.Enabled)
         {
-            if (handler.Enabled)
-            {
-                Logger.Info($"[{Name}] {handler}");
-            }
+            Logger.Debug($"[{Name}] {handler}");
         }
+    }
 
-        protected void LogDebug(string msg) => Logger.Debug($"[{Name}] {msg}");
-        protected void LogDebug(BepInExDebugLogInterpolatedStringHandler handler)
+    protected void LogWarning(string msg) => Logger.Warn($"[{Name}] {msg}");
+    protected void LogWarning(BepInExWarningLogInterpolatedStringHandler handler)
+    {
+        if (handler.Enabled)
         {
-            if (handler.Enabled)
-            {
-                Logger.Debug($"[{Name}] {handler}");
-            }
+            Logger.Warn($"[{Name}] {handler}");
         }
+    }
 
-        protected void LogWarning(string msg) => Logger.Warn($"[{Name}] {msg}");
-        protected void LogWarning(BepInExWarningLogInterpolatedStringHandler handler)
+    protected void LogError(string msg) => Logger.Error($"[{Name}] {msg}");
+    protected void LogError(BepInExErrorLogInterpolatedStringHandler handler)
+    {
+        if (handler.Enabled)
         {
-            if (handler.Enabled)
-            {
-                Logger.Warn($"[{Name}] {handler}");
-            }
+            Logger.Error($"[{Name}] {handler}");
         }
+    }
 
-        protected void LogError(string msg) => Logger.Error($"[{Name}] {msg}");
-        protected void LogError(BepInExErrorLogInterpolatedStringHandler handler)
+    public bool TryGetZone(WEE_EventData e, out LG_Zone zone)
+    {
+        if (!Builder.Current.m_currentFloor.TryGetZoneByLocalIndex(e.DimensionIndex, e.Layer, e.LocalIndex, out zone))
         {
-            if (handler.Enabled)
-            {
-                Logger.Error($"[{Name}] {handler}");
-            }
+            LogError("Unable to Find Zone from Event Data");
+            zone = null;
+            return false;
         }
+        return true;
+    }
 
-        public bool TryGetZone(WEE_EventData e, out LG_Zone zone)
+    public bool TryGetZoneEntranceSecDoor(WEE_EventData e, out LG_SecurityDoor door)
+    {
+        if (TryGetZone(e, out var zone))
         {
-            if (!Builder.Current.m_currentFloor.TryGetZoneByLocalIndex(e.DimensionIndex, e.Layer, e.LocalIndex, out zone))
-            {
-                LogError("Unable to Find Zone from Event Data");
-                zone = null;
-                return false;
-            }
-            return true;
+            return TryGetZoneEntranceSecDoor(zone, out door);
         }
+        door = null;
+        return false;
+    }
 
-        public bool TryGetZoneEntranceSecDoor(WEE_EventData e, out LG_SecurityDoor door)
+    public bool TryGetZoneEntranceSecDoor(LG_Zone zone, out LG_SecurityDoor door)
+    {
+        if (zone == null)
         {
-            if (TryGetZone(e, out var zone))
-            {
-                return TryGetZoneEntranceSecDoor(zone, out door);
-            }
+            LogError("Zone was Null!");
             door = null;
             return false;
         }
 
-        public bool TryGetZoneEntranceSecDoor(LG_Zone zone, out LG_SecurityDoor door)
+        if (zone.m_sourceGate == null)
         {
-            if (zone == null)
-            {
-                LogError("Zone was Null!");
-                door = null;
-                return false;
-            }
-
-            if (zone.m_sourceGate == null)
-            {
-                LogError("Entrace Gate is Null!");
-                door = null;
-                return false;
-            }
-
-            if (zone.m_sourceGate.SpawnedDoor == null)
-            {
-                LogError("SpawnedDoor is Null!");
-                door = null;
-                return false;
-            }
-
-            door = zone.m_sourceGate.SpawnedDoor.TryCast<LG_SecurityDoor>();
-            return door != null;
+            LogError("Entrace Gate is Null!");
+            door = null;
+            return false;
         }
+
+        if (zone.m_sourceGate.SpawnedDoor == null)
+        {
+            LogError("SpawnedDoor is Null!");
+            door = null;
+            return false;
+        }
+
+        door = zone.m_sourceGate.SpawnedDoor.TryCast<LG_SecurityDoor>();
+        return door != null;
     }
 }

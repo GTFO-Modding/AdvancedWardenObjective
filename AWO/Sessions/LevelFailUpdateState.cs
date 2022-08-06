@@ -2,56 +2,51 @@
 using AWO.Networking.CommonReplicator.Inject;
 using LevelGeneration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AWO.Sessions
+namespace AWO.Sessions;
+
+internal struct LevelFailCheck
 {
-    internal struct LevelFailCheck
+    public bool failAllowed;
+}
+
+internal sealed class LevelFailUpdateState
+{
+    private static StateReplicator<LevelFailCheck> _Replicator;
+
+    internal static void AssetLoaded()
     {
-        public bool failAllowed;
-    }
+        if (_Replicator != null)
+            return;
 
-    internal sealed class LevelFailUpdateState
-    {
-        private static StateReplicator<LevelFailCheck> _Replicator;
-
-        internal static void AssetLoaded()
+        _Replicator = StateReplicator<LevelFailCheck>.Create(1u, new() { failAllowed = true }, LifeTimeType.Permanent);
+        LG_Factory.add_OnFactoryBuildStart(new Action(() =>
         {
-            if (_Replicator != null)
-                return;
-
-            _Replicator = StateReplicator<LevelFailCheck>.Create(1u, new() { failAllowed = true }, LifeTimeType.Permanent);
-            LG_Factory.add_OnFactoryBuildStart(new Action(() =>
-            {
-                _Replicator.ClearAllRecallSnapshot();
-                _Replicator.SetState(new()
-                {
-                    failAllowed = true
-                });
-            }));
-            _Replicator.OnStateChanged += OnStateChanged;
-            LevelEvents.OnLevelCleanup += LevelCleanup;
-        }
-
-        private static void LevelCleanup()
-        {
-            SetFailAllowed(true);
-        }
-
-        public static void SetFailAllowed(bool allowed)
-        {
+            _Replicator.ClearAllRecallSnapshot();
             _Replicator.SetState(new()
             {
-                failAllowed = allowed
+                failAllowed = true
             });
-        }
+        }));
+        _Replicator.OnStateChanged += OnStateChanged;
+        LevelEvents.OnLevelCleanup += LevelCleanup;
+    }
 
-        private static void OnStateChanged(LevelFailCheck _, LevelFailCheck state, bool __)
+    private static void LevelCleanup()
+    {
+        SetFailAllowed(true);
+    }
+
+    public static void SetFailAllowed(bool allowed)
+    {
+        _Replicator.SetState(new()
         {
-            Inject_LevelFailCheck.LevelFailAllowed = state.failAllowed;
-        }
+            failAllowed = allowed
+        });
+    }
+
+    private static void OnStateChanged(LevelFailCheck _, LevelFailCheck state, bool __)
+    {
+        Inject_LevelFailCheck.LevelFailAllowed = state.failAllowed;
     }
 }

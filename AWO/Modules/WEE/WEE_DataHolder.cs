@@ -1,45 +1,40 @@
 ﻿using GameData;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AWO.Modules.WEE
+namespace AWO.Modules.WEE;
+
+internal static class WEE_DataHolder
 {
-    internal static class WEE_DataHolder
+    private readonly static Dictionary<int, DataSet> _Lookup = new();
+    private static int _Key = int.MinValue;
+
+    public static void PushWEEData(WardenObjectiveEventData original, WEE_EventData data)
     {
-        private readonly static Dictionary<int, DataSet> _Lookup = new();
-        private static int _Key = int.MinValue;
-
-        public static void PushWEEData(WardenObjectiveEventData original, WEE_EventData data)
+        _Lookup[_Key] = new DataSet()
         {
-            _Lookup[_Key] = new DataSet()
-            {
-                OriginalData = original,
-                EventData = data
-            };
+            OriginalData = original,
+            EventData = data
+        };
 
-            original.Count = _Key;
+        original.Count = _Key;
 
-            _Key++;
-        }
+        _Key++;
+    }
 
-        public static bool TryGetWEEData(WardenObjectiveEventData original, out WEE_EventData data)
+    public static bool TryGetWEEData(WardenObjectiveEventData original, out WEE_EventData data)
+    {
+        if (_Lookup.TryGetValue(original.Count, out var dataSet))
         {
-            if (_Lookup.TryGetValue(original.Count, out var dataSet))
-            {
-                data = dataSet.EventData;
-                return data != null;
-            }
-            data = null;
-            return false;
+            data = dataSet.EventData;
+            return data != null;
         }
+        data = null;
+        return false;
+    }
 
-        private class DataSet
-        {
-            public WardenObjectiveEventData OriginalData;
-            public WEE_EventData EventData;
-        }
+    private class DataSet
+    {
+        public WardenObjectiveEventData OriginalData;
+        public WEE_EventData EventData;
     }
 }

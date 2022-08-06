@@ -1,23 +1,13 @@
 ﻿using HarmonyLib;
 using LevelGeneration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AWO.Sessions.Inject
+namespace AWO.Sessions.Inject;
+
+[HarmonyPatch(typeof(LG_DoorButton), nameof(LG_DoorButton.OnWeakLockUnlocked))]
+internal static class Inject_PreventDoorButtonUnlock
 {
-    [HarmonyPatch(typeof(LG_DoorButton), nameof(LG_DoorButton.OnWeakLockUnlocked))]
-    internal static class Inject_PreventDoorButtonUnlock
+    private static bool Prefix()
     {
-        private static bool Prefix()
-        {
-            if (BlackoutState.BlackoutEnabled)
-            {
-                return false;
-            }
-            return true;
-        }
+        return !BlackoutState.BlackoutEnabled;
     }
 }

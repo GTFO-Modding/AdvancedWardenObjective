@@ -1,21 +1,11 @@
 ﻿using Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AWO
+namespace AWO;
+
+internal static class LocalizedTextExtension
 {
-    internal static class LocalizedTextExtension
+    public static string ToText(this LocalizedText text)
     {
-        public static string ToText(this LocalizedText text)
-        {
-            if (!text.HasTranslation)
-            {
-                return text.UntranslatedText;
-            }
-            return Text.Get(text.Id);
-        }
+        return text.HasTranslation ? Text.Get(text.Id) : text.UntranslatedText;
     }
 }

@@ -1,28 +1,27 @@
-﻿namespace AWO.Modules.WEE
-{
-    public enum WEE_Type
-    {
-        CloseSecurityDoor //Done
-            = WEE_EnumInjector.ExtendedIndex + 0,
+﻿namespace AWO.Modules.WEE;
 
-        LockSecurityDoor, //Done
-        SetDoorInteraction,
-        TriggerSecurityDoorAlarm, //Done
-        SolveSecurityDoorAlarm, //TODO: Partially works
-        StartReactor, //Done
-        ModifyReactorWaveState, //Done
-        ForceCompleteReactor, //Done
-        ForceCompleteLevel, //Done
-        ForceFailLevel, //Done
-        Countdown, //Done
-        SetLevelFailCheckEnabled, //Done
-        KillAllPlayers, //Done
-        SolveSingleObjectiveItem, //Done
-        SetLightDataInZone, //TODO: Partially Done, Need to Work on Animation
-        AlertEnemiesInZone, //Done
-        CleanupEnemiesInZone, //Done, Kill, Despawn Has Merged with this
-        SaveCheckpoint, //Done
-        MoveExtractionWorldPosition, //Done
-        SetBlackoutEnabled, //Done
-    }
+public enum WEE_Type
+{
+    CloseSecurityDoor //Done
+        = WEE_EnumInjector.ExtendedIndex + 0,
+
+    LockSecurityDoor, //Done
+    SetDoorInteraction,
+    TriggerSecurityDoorAlarm, //Done
+    SolveSecurityDoorAlarm, //TODO: Partially works
+    StartReactor, //Done
+    ModifyReactorWaveState, //Done
+    ForceCompleteReactor, //Done
+    ForceCompleteLevel, //Done
+    ForceFailLevel, //Done
+    Countdown, //Done
+    SetLevelFailCheckEnabled, //Done
+    KillAllPlayers, //Done
+    SolveSingleObjectiveItem, //Done
+    SetLightDataInZone, //TODO: Partially Done, Need to Work on Animation
+    AlertEnemiesInZone, //Done
+    CleanupEnemiesInZone, //Done, Kill, Despawn Has Merged with this
+    SaveCheckpoint, //Done
+    MoveExtractionWorldPosition, //Done
+    SetBlackoutEnabled, //Done
 }
