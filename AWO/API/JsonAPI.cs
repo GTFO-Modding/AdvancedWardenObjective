@@ -5,5 +5,5 @@ namespace AWO.API;
 
 public static class JsonAPI
 {
-    public static JsonConverter EventDataConverter => new ExternalEventDataConverter();
+    public static JsonConverter EventDataConverter => new ManagedEventDataConverter();
 }

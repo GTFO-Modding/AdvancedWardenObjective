@@ -17,6 +17,7 @@ public enum WEE_Type
     Countdown, //Done
     SetLevelFailCheckEnabled, //Done
     KillAllPlayers, //Done
+    KillPlayersInZone, //Done
     SolveSingleObjectiveItem, //Done
     SetLightDataInZone, //TODO: Partially Done, Need to Work on Animation
     AlertEnemiesInZone, //Done

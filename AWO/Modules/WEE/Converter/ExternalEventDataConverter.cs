@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace AWO.WEE.Converter;
 
-public sealed class ExternalEventDataConverter : JsonConverter<WardenObjectiveEventData>
+public sealed class ManagedEventDataConverter : JsonConverter<WardenObjectiveEventData>
 {
     public override WardenObjectiveEventData Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
