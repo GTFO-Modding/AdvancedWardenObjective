@@ -1,4 +1,4 @@
-﻿using BepInEx.IL2CPP.Hook;
+﻿using BepInEx.Unity.IL2CPP.Hook;
 using GTFO.API;
 using Il2CppInterop.Runtime.Runtime;
 using Newtonsoft.Json;

@@ -1,12 +1,13 @@
 ﻿global using AWO.Events;
-global using BepInEx.IL2CPP.Utils.Collections;
+global using BepInEx.Unity.IL2CPP.Utils.Collections;
 global using Il2CppInterop.Runtime.Attributes;
 global using WOManager = WardenObjectiveManager;
 using AWO.Jsons.Il2CppJson;
 using AWO.Modules.WEE;
+using AWO.Modules.WOE;
 using AWO.Sessions;
 using BepInEx;
-using BepInEx.IL2CPP;
+using BepInEx.Unity.IL2CPP;
 using GTFO.API;
 using HarmonyLib;
 
@@ -18,8 +19,9 @@ internal class EntryPoint : BasePlugin
 {
     public unsafe override void Load()
     {
-        WardenEventExt.Initialize();
         Il2CppJsonConverters.Initialize();
+        WardenEventExt.Initialize();
+        WardenObjectiveExt.Initialize();
 
         new Harmony("AWO.Harmony").PatchAll();
 

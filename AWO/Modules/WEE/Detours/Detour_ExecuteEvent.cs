@@ -1,5 +1,5 @@
 ﻿using AWO.Modules.WEE;
-using BepInEx.IL2CPP.Hook;
+using BepInEx.Unity.IL2CPP.Hook;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Runtime;
 using System;
