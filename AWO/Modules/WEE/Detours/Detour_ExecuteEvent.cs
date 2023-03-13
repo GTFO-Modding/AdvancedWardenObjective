@@ -17,11 +17,12 @@ internal static class Detour_ExecuteEvent
 
     public unsafe static void Patch()
     {
-        var nested = typeof(WOManager).GetNestedTypes();
+        var nested = typeof(WorldEventManager).GetNestedTypes();
         Type executeEventType = null;
         foreach (var nestType in nested)
         {
-            var match = nestType?.Name?.Contains(nameof(WOManager.ExcecuteEvent), StringComparison.InvariantCulture) ?? false;
+            
+            var match = nestType?.Name?.Contains(nameof(WorldEventManager.DoExcecuteEvent), StringComparison.InvariantCulture) ?? false;
             if (match)
             {
                 executeEventType = nestType;
