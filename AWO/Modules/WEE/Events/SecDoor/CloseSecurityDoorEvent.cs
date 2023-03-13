@@ -40,12 +40,15 @@ internal sealed class CloseSecurityDoorEvent : BaseEvent
             gate.HasBeenOpenedDuringPlay = false;
             gate.IsTraversable = false;
 
-            var nodeDistanceFrom = gate.m_linksFrom.m_courseNode.m_playerCoverage.GetNodeDistanceToPlayer();
-            var nodeDistanceBehind = gate.m_linksTo.m_courseNode.m_playerCoverage.GetNodeDistanceToPlayer();
-            var clearNode = nodeDistanceFrom < nodeDistanceBehind ? gate.m_linksTo.m_courseNode : gate.m_linksFrom.m_courseNode;
-            Logger.Debug("Despawning Enemies Behind Securiy Door...");
-            AIG_SearchID.IncrementSearchID();
-            DespawnEnemiesInNearNodes(AIG_SearchID.SearchID, clearNode);
+            if (e.CleanUpEnemiesBehind)
+            {
+                var nodeDistanceFrom = gate.m_linksFrom.m_courseNode.m_playerCoverage.GetNodeDistanceToPlayer();
+                var nodeDistanceBehind = gate.m_linksTo.m_courseNode.m_playerCoverage.GetNodeDistanceToPlayer();
+                var clearNode = nodeDistanceFrom < nodeDistanceBehind ? gate.m_linksTo.m_courseNode : gate.m_linksFrom.m_courseNode;
+                Logger.Debug("Despawning Enemies Behind Securiy Door...");
+                AIG_SearchID.IncrementSearchID();
+                DespawnEnemiesInNearNodes(AIG_SearchID.SearchID, clearNode);
+            }
         }
     }
 

@@ -45,6 +45,7 @@ public sealed class WEE_EventData
     public WEE_CountdownData Countdown { get; set; } = new();
     public WEE_CleanupEnemiesData CleanupEnemies { get; set; } = new();
     public WEE_ZoneLightData SetZoneLight { get; set; } = new();
+    public bool CleanUpEnemiesBehind { get; set; } = true;
 
     public WardenObjectiveEventData CreateDummyEventData()
     {
