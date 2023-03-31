@@ -16,6 +16,7 @@ public enum WEE_Type
     ForceFailLevel, //Done
     Countdown, //Done
     SetLevelFailCheckEnabled, //Done
+    SetLevelFailWhenAnyPlayerDowned, 
     KillAllPlayers, //Done
     KillPlayersInZone, //Done
     SolveSingleObjectiveItem, //Done
