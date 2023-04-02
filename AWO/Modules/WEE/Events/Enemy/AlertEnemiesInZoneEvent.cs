@@ -15,13 +15,6 @@ internal sealed class AlertEnemiesInZoneEvent : BaseEvent
             return;
         }
 
-        var data = e.CleanupEnemies;
-        if (data == null)
-        {
-            LogError("CleanupEnemies Data is null?");
-            return;
-        }
-
         foreach (var node in zone.m_courseNodes)
         {
             if (node.m_enemiesInNode == null)
