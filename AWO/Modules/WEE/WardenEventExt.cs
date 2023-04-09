@@ -68,6 +68,11 @@ public static class WardenEventExt
             yield return new WaitForSeconds(delay);
         }
 
+        if (WorldEventManager.GetCondition(e.Condition.ConditionIndex) != e.Condition.IsTrue)
+        {
+            yield break;
+        }
+
         WOManager.DisplayWardenIntel(e.Layer, e.WardenIntel.ToLocalizedText());
         if (e.DialogueID > 0u)
         {
