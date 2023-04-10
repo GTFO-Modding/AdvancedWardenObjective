@@ -55,9 +55,9 @@ internal class LightWorker
         selector.Setup(Light.m_category, lightDB);
         if (selector.TryGetRandomSetting((uint)subseed, out var setting))
         {
-            var broken = (float)rand.NextDouble();
+            var disabledProb = (float)rand.NextDouble();
 
-            if (broken <= setting.Chance)
+            if (disabledProb >= setting.Chance)
             {
                 OwnerZone.StartCoroutine(LightTransition(new()
                 {
