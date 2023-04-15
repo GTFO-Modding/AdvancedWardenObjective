@@ -31,7 +31,6 @@ internal class EventDataHandler : Il2CppJsonReferenceTypeHandler<WardenObjective
         {
             var extData = JSON.Deserialize<WEE_EventData>(jToken.ToString(), _JsonOption);
             data.SetWEEData(extData);
-            Logger.Error("Added!!!!");
         }
     }
 }
