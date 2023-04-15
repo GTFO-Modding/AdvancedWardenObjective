@@ -8,6 +8,7 @@
 	<!-- Path Info -->
 	<PropertyGroup>
 		<BIELibsFolder>$(GameFolder)\BepInEx\core</BIELibsFolder>
+		<BIECacheFolder>$(GameFolder)\BepInEx\cache</BIECacheFolder>
 		<CorLibsFolder>$(GameFolder)\dotnet</CorLibsFolder>
 		<InteropLibsFolder>$(GameFolder)\BepInEx\interop</InteropLibsFolder>
 		<PluginsFolder>$(GameFolder)\BepInEx\plugins</PluginsFolder>
@@ -24,12 +25,15 @@
 	<!-- Interop -->
 	<ItemGroup>
 		<Reference Include="$(InteropLibsFolder)\*.dll" Private="false" />
+		<Reference Include="$(BIECacheFolder)\Il2CppJsonNet.dll" Private="false" />
 		<Reference Remove="$(InteropLibsFolder)\netstandard.dll" />
+		<Reference Remove="$(InteropLibsFolder)\Newtonsoft.Json.dll" />
 	</ItemGroup>
 
 	<!-- Plugin Dependencies -->
 	<ItemGroup>
 		<Reference Include="$(PluginsFolder)\GTFO-API.dll" Private="false" />
+		<Reference Include="$(PluginsFolder)\InjectLib.dll" Private="false" />
 	</ItemGroup>
 
 	<!-- NuGet Packages -->
@@ -40,4 +44,12 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
+	<!-- MSBuild Action-->
+	<Target Name="CustomAfterBuild" AfterTargets="Build">
+		<Message Text="Copying Output to Plugins Folder..." Importance="High"/>
+		<Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll"
+			  DestinationFolder="$(PluginsFolder)"/>
+		<Message Text="Output has copied to Plugins Folder!" Importance="High"/>
+	</Target>
 </Project>

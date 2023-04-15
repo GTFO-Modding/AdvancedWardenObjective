@@ -55,9 +55,7 @@ internal class LightWorker
         selector.Setup(Light.m_category, lightDB);
         if (selector.TryGetRandomSetting((uint)subseed, out var setting))
         {
-            var disabledProb = (float)rand.NextDouble();
-
-            if (disabledProb >= setting.Chance)
+            if (!rand.MeetProbability(setting.Chance))
             {
                 OwnerZone.StartCoroutine(LightTransition(new()
                 {
@@ -70,7 +68,7 @@ internal class LightWorker
             }
             else
             {
-                var mode = ((float)rand.NextDouble() <= setting.ChanceBroken)
+                var mode = (rand.MeetProbability(setting.ChanceBroken))
                     ? LightTransitionData.Mode.Flickering : LightTransitionData.Mode.Enabled;
 
                 OwnerZone.StartCoroutine(LightTransition(new()
@@ -126,8 +124,8 @@ internal class LightWorker
         while (true)
         {
             float time = 0.0f;
-            float duration = ((float)rand.NextDouble() * (3.5f - 1.0f)) + 1.0f;
-            float speed = ((float)rand.NextDouble() * (4.0f - 1.5f)) + 1.5f;
+            float duration = rand.NextRange(1.0f, 3.5f);
+            float speed = rand.NextRange(1.5f, 4.0f);
             switch (rand.Next(0, 2))
             {
                 case 0:
@@ -143,8 +141,8 @@ internal class LightWorker
                 case 1:
                     while (time <= duration)
                     {
-                        var offDuration = (float)rand.NextDouble() * 0.5f;
-                        var onDuration = (float)rand.NextDouble() * 0.5f;
+                        var offDuration = rand.NextFloat01() * 0.5f;
+                        var onDuration = rand.NextFloat01() * 0.5f;
 
                         Light.SetEnabled(false);
                         yield return new WaitForSeconds(offDuration);
@@ -230,7 +228,7 @@ internal sealed class ZoneLightReplicator : MonoBehaviour, IStateReplicatorHolde
         var seed = data.Seed;
         if (seed == 0)
         {
-            seed = new System.Random().Next();
+            seed = RNG.Int;
         }
 
         Replicator.SetState(new ZoneLightState()

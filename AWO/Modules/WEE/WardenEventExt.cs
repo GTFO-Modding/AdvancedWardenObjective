@@ -1,5 +1,4 @@
-﻿using AWO.Jsons.Il2CppJson;
-using AWO.WEE.Converter;
+﻿using AWO.WEE.JsonInjects;
 using AWO.WEE.Detours;
 using AWO.WEE.Events;
 using AWO.WEE.Replicators;
@@ -11,6 +10,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using InjectLib.JsonNETInjection;
+using AWO.CustomFields;
 
 namespace AWO.Modules.WEE;
 
@@ -43,16 +44,18 @@ public static class WardenEventExt
         ClassInjector.RegisterTypeInIl2Cpp<ScanPositionReplicator>();
         ClassInjector.RegisterTypeInIl2Cpp<ZoneLightReplicator>();
 
-        Il2CppJsonConverters.RegisterConverter(new EventDataConverter());
+        JsonInjector.SetConverter(new EventTypeConverter());
+        JsonInjector.AddHandler(new EventDataHandler());
         WEE_EnumInjector.Inject();
         Detour_ExecuteEvent.Patch();
     }
 
     internal static void HandleEvent(WEE_Type type, WardenObjectiveEventData e, float currentDuration)
     {
-        if (WEE_DataHolder.TryGetWEEData(e, out var data))
+        var weeData = e.GetWEEData();
+        if (weeData != null)
         {
-            CoroutineManager.StartCoroutine(Handle(type, data, currentDuration).WrapToIl2Cpp(), null);
+            CoroutineManager.StartCoroutine(Handle(type, weeData, currentDuration).WrapToIl2Cpp(), null);
         }
         else
         {

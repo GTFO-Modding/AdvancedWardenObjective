@@ -7,6 +7,7 @@ internal abstract class WOE_ContextBase
 {
     public abstract eWardenObjectiveType TargetType { get; }
     public abstract Type DataType { get; }
+    protected WOE_DataBase Data { get; private set; }
     protected LG_LayerType Layer { get; private set; }
     protected int ChainIndex { get; private set; }
 

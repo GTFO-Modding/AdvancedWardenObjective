@@ -9,7 +9,6 @@ namespace AWO.WEE.Events.SecDoor;
 internal class SolveSecurityDoorAlarmEvent : BaseEvent
 {
     public override WEE_Type EventType => WEE_Type.SolveSecurityDoorAlarm;
-    private readonly System.Random _Rand = new();
 
     protected override void TriggerCommon(WEE_EventData e)
     {
@@ -74,7 +73,7 @@ internal class SolveSecurityDoorAlarmEvent : BaseEvent
         }
     }
 
-    IEnumerator SolveBasicCore(CP_Bioscan_Core basicCore)
+    static IEnumerator SolveBasicCore(CP_Bioscan_Core basicCore)
     {
         if (basicCore == null)
             yield break;
@@ -99,7 +98,7 @@ internal class SolveSecurityDoorAlarmEvent : BaseEvent
                 new Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStructArray<bool>(0));
             */
         }
-        yield return new WaitForSeconds((float)_Rand.NextDouble() * 0.35f);
+        yield return new WaitForSeconds(RNG.Float01 * 0.35f);
 
         CoroutineManager.BlinkOut(basicCore.gameObject);
 
