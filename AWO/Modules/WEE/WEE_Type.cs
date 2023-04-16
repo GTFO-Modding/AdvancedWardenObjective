@@ -25,5 +25,5 @@ public enum WEE_Type
     CleanupEnemiesInZone, //Done, Kill, Despawn Has Merged with this
     SaveCheckpoint, //Done
     MoveExtractionWorldPosition, //Done
-    SetBlackoutEnabled, //Done
+    SetBlackoutEnabled //Done
 }

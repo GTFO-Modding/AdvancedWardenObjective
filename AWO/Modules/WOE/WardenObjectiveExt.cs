@@ -7,14 +7,11 @@ namespace AWO.Modules.WOE;
 
 public static class WardenObjectiveExt
 {
-    private static readonly Dictionary<eWardenObjectiveType, Type> _ContextLookup = new();
+    private static readonly Dictionary<eWardenObjectiveType, Type> _DTOTypes = new();
     private static readonly List<WOE_ContextBase> _ActiveContexts = new();
 
     static WardenObjectiveExt()
     {
-        //TODO: Implement
-        return;
-
         var contextTypes = typeof(WOE_ContextBase).Assembly.GetTypes()
             .Where(x => !x.IsAbstract)
             .Where(x => x.IsAssignableTo(typeof(WOE_ContextBase)));
@@ -22,7 +19,7 @@ public static class WardenObjectiveExt
         foreach (var type in contextTypes)
         {
             var instance = (WOE_ContextBase)Activator.CreateInstance(type);
-            if (_ContextLookup.TryGetValue(instance.TargetType, out var existing))
+            if (_DTOTypes.TryGetValue(instance.TargetType, out var existing))
             {
                 Logger.Error($"Duplicate {nameof(WOE_ContextBase.TargetType)} Detected!");
                 Logger.Error($"With '{type.Name}' and '{instance.GetType().Name}'");
@@ -35,9 +32,7 @@ public static class WardenObjectiveExt
                 continue;
             }
 
-            //TODO: Intergrate MTFO here..
-
-            _ContextLookup[instance.TargetType] = type;
+            _DTOTypes[instance.TargetType] = type;
         }
 
         WOEvents.OnSetup += ObjectiveSetup;
@@ -57,7 +52,7 @@ public static class WardenObjectiveExt
             return;
         }
         
-        if (!_ContextLookup.TryGetValue(data.Type, out var type))
+        if (!_DTOTypes.TryGetValue(data.Type, out var type))
         {
             return;
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AWO.Modules.WOE.Uplinks;
+namespace AWO.Modules.WOE.Objectives.Uplinks;
 
 internal sealed class WOE_UplinkContext : WOE_ContextBase
 {

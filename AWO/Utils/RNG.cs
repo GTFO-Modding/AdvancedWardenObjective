@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AWO;
+namespace AWO.Utils;
 internal static class RNG
 {
     private readonly static Random _Rand = new();

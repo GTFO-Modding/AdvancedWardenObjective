@@ -2,10 +2,12 @@
 using AIGraph;
 using AWO.Jsons;
 using GameData;
+using InjectLib.JsonNETInjection.Supports;
 using LevelGeneration;
 using SNetwork;
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using UnityEngine;
 
 namespace AWO.Modules.WEE;
@@ -99,6 +101,7 @@ public sealed class WEE_CountdownData
     public float Duration { get; set; }
     public LocaleText TimerText { get; set; } = LocaleText.Empty;
     public Color TimerColor { get; set; } = Color.red;
+    public WardenObjectiveEventData[] EventsOnDone { get; set; } = Array.Empty<WardenObjectiveEventData>();
 }
 
 public sealed class WEE_CleanupEnemiesData

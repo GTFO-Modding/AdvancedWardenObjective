@@ -1,8 +1,8 @@
 ﻿using Localization;
 
-namespace AWO;
+namespace AWO.Utils;
 
-internal static class LocalizedTextExtension
+internal static class LocalizedTextExtensions
 {
     public static string ToText(this LocalizedText text)
     {

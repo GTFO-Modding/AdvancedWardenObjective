@@ -1,8 +1,4 @@
-﻿global using AWO.Events;
-global using BepInEx.Unity.IL2CPP.Utils.Collections;
-global using Il2CppInterop.Runtime.Attributes;
-global using WOManager = WardenObjectiveManager;
-using AWO.Modules.WEE;
+﻿using AWO.Modules.WEE;
 using AWO.Modules.WOE;
 using AWO.Sessions;
 using BepInEx;

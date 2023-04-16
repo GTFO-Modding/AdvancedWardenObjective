@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AWO.Modules.WOE.ReactorStartups;
+namespace AWO.Modules.WOE.Objectives.ReactorStartups;
 
 internal sealed class WOE_ReactorStartupContext : WOE_ContextBase
 {

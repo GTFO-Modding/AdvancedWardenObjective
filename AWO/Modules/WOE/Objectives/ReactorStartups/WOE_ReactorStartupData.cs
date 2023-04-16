@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace AWO.Modules.WOE.ReactorStartups;
+namespace AWO.Modules.WOE.Objectives.ReactorStartups;
 
 internal enum ReactorWavePuzzleType
 {

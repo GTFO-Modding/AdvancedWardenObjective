@@ -36,5 +36,9 @@ internal sealed class CountdownEvent : BaseEvent
         }
 
         GuiManager.PlayerLayer.m_objectiveTimer.SetTimerActive(false, false);
+        foreach (var eventData in cd.EventsOnDone)
+        {
+            WorldEventManager.ExecuteEvent(eventData);
+        }
     }
 }

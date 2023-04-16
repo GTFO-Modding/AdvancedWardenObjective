@@ -14,7 +14,7 @@ internal class EventTypeConverter : Il2CppJsonUnmanagedTypeConverter<eWardenObje
 {
     protected override eWardenObjectiveEventType Read(JToken jToken, eWardenObjectiveEventType existingValue, JsonSerializer serializer)
     {
-        int value = 0;
+        int value;
         switch(jToken.Type)
         {
             case JTokenType.Integer:

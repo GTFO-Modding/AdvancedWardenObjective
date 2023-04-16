@@ -1,12 +1,14 @@
 ﻿using GameData;
+using InjectLib.JsonNETInjection.Supports;
 using LevelGeneration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace AWO.Modules.WOE.Uplinks;
+namespace AWO.Modules.WOE.Objectives.Uplinks;
 
 internal sealed class WOE_UplinkData : WOE_DataBase
 {
