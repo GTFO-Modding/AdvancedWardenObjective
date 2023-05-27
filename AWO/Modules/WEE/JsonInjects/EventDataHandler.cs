@@ -4,15 +4,10 @@ using AWO.Modules.WEE;
 using GameData;
 using Il2CppJsonNet.Linq;
 using InjectLib.FieldInjection;
-using InjectLib.JsonNETInjection.Handler;
 using InjectLib.JsonNETInjection.Supports;
+using InjectLib.JsonNETInjection.Handler;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-
 using JSON = GTFO.API.JSON.JsonSerializer;
 
 namespace AWO.WEE.JsonInjects;
