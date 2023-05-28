@@ -2,12 +2,10 @@
 using AIGraph;
 using AWO.Jsons;
 using GameData;
-using InjectLib.JsonNETInjection.Supports;
 using LevelGeneration;
 using SNetwork;
 using System;
 using System.Linq;
-using System.Text.Json.Serialization;
 using UnityEngine;
 
 namespace AWO.Modules.WEE;
@@ -38,6 +36,7 @@ public sealed class WEE_EventData
     public uint DialogueID { get; set; } = 0u;
     public bool Enabled { get; set; } = true;
 
+
     //Common Updater
     public WEE_SubObjectiveData SubObjective { get; set; } = new();
     public WEE_UpdateFogData Fog { get; set; } = new();
@@ -48,6 +47,8 @@ public sealed class WEE_EventData
     public WEE_CleanupEnemiesData CleanupEnemies { get; set; } = new();
     public WEE_ZoneLightData SetZoneLight { get; set; } = new();
     public bool CleanUpEnemiesBehind { get; set; } = true;
+    public WEE_SpawnHibernateData SpawnHibernates { get; set; } = new();
+    public WEE_SpawnScoutData SpawnScouts { get; set; } = new();
 
     public WardenObjectiveEventData CreateDummyEventData()
     {
@@ -174,6 +175,23 @@ public sealed class WEE_ZoneLightData
         RevertToOriginal,
         SetZoneLightData
     }
+}
+
+public sealed class WEE_SpawnHibernateData
+{
+    public int AreaIndex { get; set; } = -1; // -1 denotes 'random'
+    public uint EnemyID { get; set; } = 0;
+    public uint Count { get; set; } = 1;
+    public Vector3 Position { get; set; } = Vector3.zero;
+    public Vector3 Rotation { get; set; } = Vector3.zero;
+}
+
+public sealed class WEE_SpawnScoutData
+{
+    public int AreaIndex { get; set; } = -1; // -1 denotes 'random'
+    public eEnemyGroupType GroupType { get; set; }
+    public eEnemyRoleDifficulty Difficulty { get; set; }
+    public uint Count { get; set; } = 1;
 }
 
 public enum FilterMode

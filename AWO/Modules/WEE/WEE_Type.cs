@@ -23,6 +23,8 @@ public enum WEE_Type
     SetLightDataInZone, //TODO: Partially Done, Need to Work on Animation
     AlertEnemiesInZone, //Done
     CleanupEnemiesInZone, //Done, Kill, Despawn Has Merged with this
+    SpawnHibernateInZone, // Added by Inas
+    SpawnScoutInZone, // Added by Inas
     SaveCheckpoint, //Done
     MoveExtractionWorldPosition, //Done
     SetBlackoutEnabled //Done
