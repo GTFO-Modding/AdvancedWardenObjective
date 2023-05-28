@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using AWO.WEE.Events;
+using AWO.Utils;
 using GTFO.API.Utilities;
 using System.Collections;
 using LevelGeneration;
-using Agents;
+
 using Enemies;
 using GameData;
-using AIGraph;
 
 namespace AWO.Modules.WEE.Events.Enemy;
 internal class SpawnScoutInZoneEvent : BaseEvent
@@ -29,13 +29,12 @@ internal class SpawnScoutInZoneEvent : BaseEvent
             }
         }
 
-        CoroutineDispatcher.StartCoroutine(DoSpawn(e, zone));
+        CoroutineDispatcher.StartInLevelCoroutine(DoSpawn(e, zone));
     }
 
     static IEnumerator DoSpawn(WEE_EventData e, LG_Zone zone)
     {
         var ss = e.SpawnScouts;
-        System.Random rand = ss.AreaIndex == -1 ? new() : null;
         
         float SpawnInterval = TimeToCompleteSpawn / ss.Count;
 
@@ -51,7 +50,7 @@ internal class SpawnScoutInZoneEvent : BaseEvent
             EnemyGroupDataBlock randomGroup = r.GetRandomGroup(Builder.SessionSeedRandom.Value());
             float popPoints = randomGroup.MaxScore * Builder.SessionSeedRandom.Range(1f, 1.2f);
 
-            var node = ss.AreaIndex == -1 ? zone.m_areas[rand.Next(0, zone.m_areas.Count)].m_courseNode : zone.m_areas[ss.AreaIndex].m_courseNode;
+            var node = ss.AreaIndex == -1 ? zone.m_areas[RNG.Int0Positive % zone.m_areas.Count].m_courseNode : zone.m_areas[ss.AreaIndex].m_courseNode;
 
             var scoutSpawnData = EnemyGroup.GetSpawnData(node.GetRandomPositionInside(), node, EnemyGroupType.Hibernating,
             eEnemyGroupSpawnType.RandomInArea, randomGroup.persistentID, popPoints) with
