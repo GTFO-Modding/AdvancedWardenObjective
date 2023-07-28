@@ -36,12 +36,11 @@ internal static class BlackoutState
 
     private static void OnStateChanged(BlackoutStatus _, BlackoutStatus state, bool isRecall)
     {
-        BlackoutEnabled = state.blackoutEnabled;
         var isNormal = !state.blackoutEnabled;
 
         foreach (var display in LG_Objects.LabDisplays)
         {
-            if (display == null)
+            if (display == null || display.m_Text == null)
                 continue;
 
             display.m_Text.enabled = isNormal;
@@ -52,11 +51,19 @@ internal static class BlackoutState
             if (terminal == null)
                 continue;
 
+            // help terminals not brick
+            terminal.OnProximityExit();
+
             var interaction = terminal.GetComponentInChildren<Interact_ComputerTerminal>(includeInactive: true);
             if (interaction != null) interaction.enabled = isNormal;
 
-            var guix = terminal.GetComponentInChildren<GUIX_VirtualScene>(includeInactive: true);
+            var guixSceneLink = terminal.GetComponent<GUIX_VirtualSceneLink>();
+            GUIX_VirtualScene guix = null;
+            if (guixSceneLink != null) guix = guixSceneLink.m_virtualScene;
+
             if (guix != null) guix.gameObject.SetActive(isNormal);
+
+            if (terminal.m_text != null) terminal.m_text.gameObject.SetActive(isNormal);
         }
 
         foreach (var doorButton in LG_Objects.DoorButtons)
@@ -109,5 +116,7 @@ internal static class BlackoutState
                 }
             }
         }
+
+        BlackoutEnabled = state.blackoutEnabled;
     }
 }
