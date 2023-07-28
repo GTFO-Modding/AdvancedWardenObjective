@@ -54,16 +54,39 @@ internal static class BlackoutState
             // help terminals not brick
             terminal.OnProximityExit();
 
-            var interaction = terminal.GetComponentInChildren<Interact_ComputerTerminal>(includeInactive: true);
-            if (interaction != null) interaction.enabled = isNormal;
+            //Disable Interaction
+            var interact = terminal.GetComponentInChildren<Interact_ComputerTerminal>(includeInactive: true);
+            if (interact != null)
+            {
+                interact.enabled = isNormal;
+                interact.SetActive(isNormal);
+            }
 
+            //Disable Terminal Screen Completely
             var guixSceneLink = terminal.GetComponent<GUIX_VirtualSceneLink>();
-            GUIX_VirtualScene guix = null;
-            if (guixSceneLink != null) guix = guixSceneLink.m_virtualScene;
+            if (guixSceneLink != null && guixSceneLink.m_virtualScene != null)
+            {
+                var virtCam = guixSceneLink.m_virtualScene.virtualCamera;
+                var nearClip = isNormal ? 0.3f : 0.0f;
+                var farClip = isNormal ? 1000.0f : 0.0f;
+                virtCam.SetFovAndClip(virtCam.paramCamera.fieldOfView, nearClip, farClip);
+            }
 
-            if (guix != null) guix.gameObject.SetActive(isNormal);
+            //Disable Terminal Text
+            if (terminal.m_text != null)
+            {
+                terminal.m_text.enabled = isNormal;
+            }
 
-            if (terminal.m_text != null) terminal.m_text.gameObject.SetActive(isNormal);
+            //Exit the Terminal Interaction if it was using
+            if (!isNormal)
+            {
+                var interactionSource = terminal.m_localInteractionSource;
+                if (interactionSource != null && interactionSource.FPItemHolder.InTerminalTrigger)
+                {
+                    terminal.ExitFPSView();
+                }
+            }
         }
 
         foreach (var doorButton in LG_Objects.DoorButtons)
