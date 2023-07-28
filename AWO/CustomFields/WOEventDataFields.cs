@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AWO.CustomFields;
 internal static class WOEventDataFields
 {
-    static WOEventDataFields()
+    internal static void Init()
     {
         FieldInjector<WardenObjectiveEventData>.DefineManagedField<WEE_EventData>("m_WEEDataRef");
     }

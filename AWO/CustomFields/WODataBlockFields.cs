@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AWO.CustomFields;
 internal static class WODataBlockFields
 {
-    static WODataBlockFields()
+    internal static void Init()
     {
         FieldInjector<WardenObjectiveDataBlock>.DefineManagedField<WOE_DataBase>("m_WOEDataRef");
     }

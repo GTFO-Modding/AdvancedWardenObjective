@@ -1,4 +1,6 @@
-﻿using AWO.Modules.WEE;
+﻿global using AWO.CustomFields;
+
+using AWO.Modules.WEE;
 using AWO.Modules.WOE;
 using AWO.Sessions;
 using BepInEx;
@@ -21,6 +23,9 @@ internal class EntryPoint : BasePlugin
         new Harmony("AWO.Harmony").PatchAll();
 
         AssetAPI.OnStartupAssetsLoaded += AssetAPI_OnStartupAssetsLoaded;
+
+        WOEventDataFields.Init();
+        WODataBlockFields.Init();
     }
 
     private void AssetAPI_OnStartupAssetsLoaded()
