@@ -5,5 +5,6 @@ namespace AWO.API;
 
 public static class JsonAPI
 {
+    //INFO: Legacy, Use InjectLibConnector from InjectLib
     //public static JsonConverter EventDataConverter => new ManagedEventDataConverter();
 }
